@@ -7,8 +7,8 @@ const cors          = require('cors')
 const cookieParser  = require('cookie-parser')
 
 
-dotenv.config({path:'./.env'}) // set .env file path
-const PORT = process.env.PORT
+// dotenv.config({path:'./.env'}) // set .env file path
+const PORT = process.env.PORT || 5000
 
 // initialize server
 const app = express()
@@ -22,12 +22,26 @@ app.use(bodyParser.urlencoded({extended:false}))
 //     ],
 //     credentials:true
 // }))
+
+// allow different origins to access the server
+app.use((req,res,next)=>{
+	res.header("Access-Control-Allow-Origin", "*")
+	res.header("Access-Control-Allow-Headers", "*")
+
+	if(req.method === "OPTIONS"){
+		res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET')
+		return res.status(200).json({})
+	}
+
+	next();
+})
+
 app.use(cookieParser())
 
 
 // pass this app to router
 router(app)
-
+ 
 //connect to mySQL
 database.connect(err => {
     if(err){
