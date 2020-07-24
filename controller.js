@@ -138,6 +138,116 @@ module.exports.getComments = (req,res) => { // get comments  and ratings from a 
 	})
 }
 
+module.exports.checkUsername = (req, res) => { // invoke this function when a user is inputing username when creating an account
+	// get username from request
+	const username = req.body.username
+
+	//create query 
+	const checkUsernameQuery = `SELECT Username from USER WHERE Username = '${username}'`
+	//execute query
+	database.query(checkUsernameQuery, (err, result)=>{
+		if(err){
+			console.log("CHECK USERNAME IN DB ERR: ", err)
+		}else{
+			if(result.length === 0){
+				res.status(200).json({infoValid: true, msg:"Username is valid!"})
+			}else{
+				res.status(200).json({infoValid: false, msg:"Username is already taken!"})
+			}
+		}
+	})
+}
+
+module.exports.checkEmail = (req, res) => { // invoke this function when a user is inputing email when creating an account
+	// get email from request
+	const email = req.body.email
+
+	//create query 
+	const checkEmailQuery = `SELECT Email from USER WHERE email = '${email}'`
+	//execute query
+	database.query(checkEmailQuery, (err, result)=>{
+		if(err){
+			console.log("CHECK USERNAME IN DB ERR: ", err)
+		}else{
+			if(result.length === 0){
+				res.status(200).json({infoValid: true, msg:"Email is valid!"})
+			}else{
+				res.status(200).json({infoValid: false, msg:"Email is already taken!"})
+			}
+		}
+	})
+}
+
+module.exports.createAccount = async (req, res) => { // creating a customer/business owner account
+	// invoke this function only when the username and email have been validated
+	// get info from the request
+	const userInfo = {
+		name : req.body.name,
+		username : req.body.username,
+		email : req.body.email,
+		password: req.body.password,
+		picture: req.body.picture, // if none is passed, request should make the value of this as "NULL"
+		type: req.body.type // value should only be "Customer" or "Business_owner"
+	}
+
+	let userPW = await bcrypt.hash(userInfo.password, 8) // encrypting for security
+	// add account to db
+	if(userInfo.picture === "NULL"){
+		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password,  User_type) VALUES ('${userInfo.name}','${userInfo.username}', '${userInfo.email}', '${userPW}', '${userInfo.type}')`
+		database.query(addUserToDBQuery, (err, result)=>{
+			if(err){
+				console.log("ADD USER TO DB ERR: ", err)
+			}else{
+				res.status(200).json({infoValid: true, msg:"Successfully added user!"})
+			}
+		})
+	}else{
+		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password, Picture,  User_type) VALUES ('${userInfo.name}','${userInfo.username}', '${userInfo.email}', '${userPW}', '${userInfo.picture}', '${userInfo.type}')`
+		database.query(addUserToDBQuery, (err, result)=>{
+			if(err){
+				console.log("ADD USER TO DB ERR: ", err)
+			}else{
+				res.status(200).json({infoValid: true, msg:"Successfully added user!"})
+			}
+		})
+	}
+}
+
+module.exports.deleteAccountCustomer = (req, res) => { // to delete an account in the db; before invoking this function, make sure the user really wants to delete his/her account
+	// get username from params
+	const username = req.params.username
+
+	// MAKE SURE THAT THE ACCOUNT TYPE IS "Customer" !!!!
+	//create query
+	const deleteAccQuery = `DELETE FROM USER WHERE Username='${username}'`
+	//execute query
+	database.query(deleteAccQuery, (err, result)=>{
+		if(err){
+			console.log("DELETE ACC IN DB ERR: ", err)
+		}else{
+			console.log(result)
+			res.status(200).json({msg: "Successfully removed account!"})
+		}
+	})
+
+}
+
+module.exports.getProfile = (req, res) => { // get the information of a user; invoke this only when user is logged in
+	// get username from parameters
+	const username = req.params.username
+
+	// create query
+	const getUserInfo = `SELECT * FROM USER WHERE Username='${username}'`
+	// execute query
+	database.query(getUserInfo, (err, result)=>{
+		if(err){
+			console.log("GET USER INFO FROM DB ERR: ", err)
+		}else{
+			res.status(200).json(result)
+		}
+	})
+}
+
 
 module.exports.showAllUsers = (req, res) => { // dummy function, not useful for actual app
 	//create query
@@ -155,6 +265,3 @@ module.exports.showAllUsers = (req, res) => { // dummy function, not useful for 
 }
 
 
-module.exports.home = (req,res) =>{
-	return res.send("<p>Hello World</p>")
-}
