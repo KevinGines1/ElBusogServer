@@ -2,8 +2,16 @@ const database = require('./database')
 const jwt      = require('jsonwebtoken')
 const bcrypt   = require('bcryptjs')
 const dotenv   = require('dotenv')
+const path	   = require('path')
 
 dotenv.config({path:'./.env'})
+
+module.exports.docs = (req,res) => { // documentation page
+	//send html file containing the documentation
+	res.sendFile(path.join(__dirname+'/documentation/documentation.html'))
+	// res.status(200).send(documentation_page)
+
+}
 
 module.exports.getAllFoodPlaces = (req,res) => { // get all food places in the database
 	

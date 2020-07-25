@@ -14,6 +14,10 @@ const PORT = process.env.PORT || 5000
 const app = express()
 
 // middleware
+// app.use(express.static('documentation'))
+app.use('/api', express.static('./documentation'))
+
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 // app.use(cors({

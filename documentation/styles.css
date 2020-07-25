@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+
+body{
+	background-color:orange;
+}
+
+.header{
+	border: 2px solid black;
+	border-radius:35px;
+	text-align:center;
+}
+
+.headerText{
+	font-family:'Fira Sans', sans-serif;
+	font-size:50px;
+	margin-bottom: 0;
+	margin-top: 10px;
+}
+
+.headersubText{
+	margin-top: 0;
+	text-decoration:underline;
+}
+
+.overallContainer{
+	background-color:red;
+}
+
+.mainLinkHolder{
+	/*display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items: center;*/
+	margin:20px;
+	/*background-color:rgba(255,255,255,0.5);*/
+	text-align:center;
+	border-radius:20px;
+	width:100%;
+}
+
+.mainLink{
+	margin-top:10px;
+	font-family:'Fira Sans', sans-serif;
+}
+
+.mainLink, .completeLink{
+	color:black;
+	text-decoration: none;
+}
+
+.mainLink:hover ,.completeLink:hover{
+	text-decoration: underline
+}
+
+.endpointContainer{
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items: center;
+	margin:20px;
+	border-radius:20px;
+	background-color:rgba(255,255,255, 0.5);
+}
+.endpointLink{
+	margin-top: 10px;
+	background-color:rgba(255,255,255, 0.7);
+	border-radius:20px;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: space-around;
+	height:100%;
+	width:90%;
+}
+
+.endPoint, .completeLink, .endPointNotes{
+	margin-left: 20px;
+	text-align:center;
+}
+
+.endPoint{
+	font-size:23px;
+	font-family:'Fira Sans', sans-serif;
+}
+
+.endPointNotes{
+	font-family:'Fira Sans', sans-serif;
+	font-size:15px;
+}
+
+.completeLink, .endPointNotes{
+	font-size:13px;
+	font-weight: bold;
+}
+
+.tableContainer{
+	/*background-color:red;*/
+	margin:10px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-radius:5px;
+}
+
+th{
+	font-family:'Fira Sains', sans-serif;
+	font-size:20px;
+}

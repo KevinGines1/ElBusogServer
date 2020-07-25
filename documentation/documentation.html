@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ElBusog Documentation</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<div class="header">
+		<p class="headerText">ElBusog</p>
+		<p class="headersubText">API Documentation</p>
+		<a href="https://ancient-garden-70007.herokuapp.com/" class="mainLink">https://ancient-garden-70007.herokuapp.com/</a>
+	</div>
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">GET: /api/getAllFoodPlaces</p>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getAllFoodPlaces" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getAllFoodPlaces</a>
+		</div>
+		<div class="tableContainer">
+			<table>
+				<tr>
+					<th>Parameters: </th>
+					<th>Return Values:</th>
+				</tr>
+				<tr>
+					<td>None</td>
+					<td>
+						<pre>
+{
+ "Food_place_id":int,
+ "Food_place_name":string,
+ "Price_range":string ("<60", "60-100", ">100"),
+ "Description":string,
+ "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
+ "Closing_time":int (in 24-hr format; if open for 24 hours, value is NULL),
+ "Days_open": string (e.g. "Monday-Saturday"),
+ "User_id":int (User_id of owner; if NULL, no account owns it)
+}
+						</pre>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">GET: /api/getFoodPlace/priceRange/:priceRange</p>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/<60" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/<60</a>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/60-100" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/60-100</a>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/>100" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/>100</a>
+		</div>
+		<div class="tableContainer">
+			<table>
+				<tr>
+					<th>Parameters: </th>
+					<th>Return Values:</th>
+				</tr>
+				<tr>
+					<td><b>:priceRange</b> (should only be: "<60", "60-100", ">100")</td>
+					<td>
+						<pre>
+{
+ "Food_place_id":int,
+ "Food_place_name":string,
+ "Price_range":string ("<60", "60-100", ">100"),
+ "Description":string,
+ "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
+ "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL),
+ "Days_open": string (e.g. "Monday-Saturday"),
+ "User_id":int (User_id of owner; if NULL, no business owner account owns it)
+}
+						</pre>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">GET: /api/getFoodPlace/foodType/:foodType</p>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Meat" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Meat
+			</a>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Vegetable" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Vegetable
+			</a>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Snacks" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Snacks
+			</a>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Ice Cream" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Ice Cream
+			</a>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Seafood" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Seafood
+			</a>
+		</div>
+		<div class="tableContainer">
+			<table>
+				<tr>
+					<th>Parameters: </th>
+					<th>Return Values:</th>
+				</tr>
+				<tr>
+					<td><b>:foodType</b> (should only be: "Meal", "Vegetable", "Ice Cream", "Snacks", "Seafood")</td>
+					<td>
+						<pre>
+{
+ "Food_place_id":int,
+ "Food_place_name":string,
+ "Price_range":string ("<60", "60-100", ">100"),
+ "Description":string,
+ "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
+ "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL),
+ "Days_open": string (e.g. "Monday-Saturday"),
+ "User_id":int (User_id of owner; if NULL, no business owner account owns it)
+}
+						</pre>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/addFoodPlace</p>
+			<p class="endPointNotes">This should only be used when a user with a Business_owner account will add their own food place</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/addFoodPlace</p>
+		</div>
+		<div class="tableContainer">
+			<table>
+				<tr>
+					<th>Parameters: </th>
+					<th>Return Values:</th>
+				</tr>
+				<tr>
+					<td>
+						<pre>
+(
+foodPlaceName: string, 
+priceRange: string ("<60", "60-100", ">100"),
+description : string (up to 280 chars only),
+openTime: string in 24h format (e.g. "900"), NULL if 24 hours open,
+closeTime: string in 24h format (e.g. "2100"), NULL if 24 hours open,
+daysOpen: string (e.g. "Monday-Sunday"),
+owner: string (username of place owner)
+)
+						</pre>
+					</td>
+					<td>
+						<pre>
+{
+ "Food_place_id":int,
+ "Food_place_name":string,
+ "Price_range":string ("<60", "60-100", ">100"),
+ "Description":string,
+ "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
+ "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL),
+ "Days_open": string (e.g. "Monday-Saturday"),
+ "User_id":int (User_id of owner; if NULL, no business owner account owns it)
+}
+						</pre>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

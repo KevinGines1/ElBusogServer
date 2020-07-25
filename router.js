@@ -1,6 +1,7 @@
 const controller = require('./controller')
 
 module.exports = (app) => {
+	app.get('/',											    controller.docs)
 	app.get('/api/getAllFoodPlaces', 							controller.getAllFoodPlaces)
 	app.get('/api/getAllUsers', 								controller.showAllUsers)
 	app.get('/api/getFoodPlace/priceRange/:priceRange', 		controller.getFoodPlaceWithinRange)
