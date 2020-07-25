@@ -71,7 +71,7 @@ module.exports.addFoodPlace = (req, res) => { // this function should only be ca
 		openTime: req.body.openTime, 
 		closeTime: req.body.closeTime, 
 		daysOpen : req.body.daysOpen,
-		foodTypes : req.body.foodTypes // string
+		foodTypes : req.body.foodTypes, // string
 		owner: req.body.owner // username of the owner
 	}
 
