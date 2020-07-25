@@ -15,7 +15,7 @@ const app = express()
 
 // middleware
 // app.use(express.static('documentation'))
-app.use('/api', express.static('./documentation'))
+app.use('/', express.static('./documentation'))
 
 
 app.use(bodyParser.json())
