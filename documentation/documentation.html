@@ -26,11 +26,12 @@
 {
  "Food_place_id":int,
  "Food_place_name":string,
+ "Location" : string,
  "Price_range":string ("<60", "60-100", ">100"),
  "Description":string,
- "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
- "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL),
- "Days_open": string (e.g. "Monday-Saturday"),
+ "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL, displayed as "900" for 9:00 AM),
+ "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL, displayed as "2100" for 9:00 PM),
+ "Days_open": string (e.g. "1234567" where 1=Sunday, 2=Monday, ..., 6=Saturday),
  "Food_types" : string (e.g. "Meal, Vegetable, Seafood, Snacks, Ice Cream")
  "User_id":int (User_id of owner; if NULL, no business owner account owns it)
 }
@@ -113,12 +114,13 @@
 <p class="req">
 	<pre>
 (
-foodPlaceName: string, 
+foodPlaceName: string,
+location: string, (should only be: "within UPLB", "Grove", "Raymundo", "Demarces", You can place multiple in one string e.g. "Raymundo, Demarces")
 priceRange: string ("<60", "60-100", ">100"),
 description : string (up to 280 chars only),
-openTime: string in 24h format (e.g. "900"), NULL if 24 hours open,
-closeTime: string in 24h format (e.g. "2100"), NULL if 24 hours open,
-daysOpen: string (e.g. "Monday-Sunday"),
+openTime: string in 24h format (e.g. "900"), place NULL if 24 hours open,
+closeTime: string in 24h format (e.g. "2100"), place NULL if 24 hours open,
+daysOpen: string (e.g. "1234567" where 1=Sunday, 2=Monday, ..., 6=Saturday),
 foodTypes: string (e.g. "Meat" or "Meat, Vegetable, Snacks, Ice Cream"; <b>Place all in a SINGLE string separated by commas</b>)
 owner: string (username of place owner)
 )
@@ -171,11 +173,12 @@ owner: string (username of place owner)
 {
  "Food_place_id":int,
  "Food_place_name":string,
+ "Location": string,
  "Price_range":string ("<60", "60-100", ">100"),
  "Description":string,
- "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
- "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL),
- "Days_open": string (e.g. "Monday-Saturday"),
+ "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL, displayed as "900" for 9:00 AM),
+ "Closing_time":int (in 24-hr format; if open for 24 hours, value is NULL, displayed as "2100" for 9:00 PM),
+ "Days_open": string (e.g. "1234567" where 1=Sunday, 2=Monday, ..., 6=Saturday),
  "User_id":int (User_id of owner; if NULL, no business owner account owns it)
 }
 	</pre>
@@ -288,7 +291,6 @@ email: string (up to 25 chars),
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">GET: /api/profile/:username</p>
-			<!-- <p class="endPointNotes">This should be used when a user inputs an email when creating an account</p> -->
 			<a href="https://ancient-garden-70007.herokuapp.com/api/profile/AkoIkawZoren" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/profile/AkoIkawZoren</a>
 		</div>
 		<div class="reqresContainer">
