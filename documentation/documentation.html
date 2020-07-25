@@ -184,7 +184,7 @@ owner: string (username of place owner)
 	</div>
 
 	<!----------------------------------------------------------------------------------------------------------------->
-		<div class="endpointContainer">
+	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/register</p>
 			<p class="endPointNotes">This should only be used when username and email are validated/unique</p>
@@ -209,6 +209,101 @@ type: string (either: "Customer" or "Business_owner" CASE SENSITIVE)
 	<pre>					
 {
  "msg" : "Successfully added user!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/checkUsername</p>
+			<p class="endPointNotes">This should be used when a user inputs a username when creating an account</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/checkUsername</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+	<pre>
+(
+username: string (up to 15 chars), 
+)
+	</pre>
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "infoValid": true
+ "msg" : "Username is available!"
+}
+	</pre>
+	OR 
+	<pre>					
+{
+ "infoValid": false
+ "msg" : "Username is already taken!"
+}
+	</pre>
+
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/checkEmail</p>
+			<p class="endPointNotes">This should be used when a user inputs an email when creating an account</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/checkEmail</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+	<pre>
+(
+email: string (up to 25 chars), 
+)
+	</pre>
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "infoValid": true
+ "msg" : "Email is available!"
+}
+	</pre>
+	OR 
+	<pre>					
+{
+ "infoValid": false
+ "msg" : "Email is already taken!"
+}
+	</pre>
+
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">GET: /api/profile/:username</p>
+			<!-- <p class="endPointNotes">This should be used when a user inputs an email when creating an account</p> -->
+			<a href="https://ancient-garden-70007.herokuapp.com/api/profile/AkoIkawZoren" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/profile/AkoIkawZoren</a>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">:username (string, username of user) </p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "User_id" : string,
+ "Name" : string,
+ "Username" : string,
+ "Email" : string,
+ "Picture" : string,
+ "User_type": "Customer" or "Business_owner"
 }
 	</pre>
 </p>

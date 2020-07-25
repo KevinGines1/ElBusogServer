@@ -175,7 +175,7 @@ module.exports.checkUsername = (req, res) => { // invoke this function when a us
 			console.log("CHECK USERNAME IN DB ERR: ", err)
 		}else{
 			if(result.length === 0){
-				res.status(200).json({infoValid: true, msg:"Username is valid!"})
+				res.status(200).json({infoValid: true, msg:"Username is available!"})
 			}else{
 				res.status(200).json({infoValid: false, msg:"Username is already taken!"})
 			}
@@ -195,7 +195,7 @@ module.exports.checkEmail = (req, res) => { // invoke this function when a user 
 			console.log("CHECK USERNAME IN DB ERR: ", err)
 		}else{
 			if(result.length === 0){
-				res.status(200).json({infoValid: true, msg:"Email is valid!"})
+				res.status(200).json({infoValid: true, msg:"Email is available!"})
 			}else{
 				res.status(200).json({infoValid: false, msg:"Email is already taken!"})
 			}
@@ -262,7 +262,7 @@ module.exports.getProfile = (req, res) => { // get the information of a user; in
 	const username = req.params.username
 
 	// create query
-	const getUserInfo = `SELECT * FROM USER WHERE Username='${username}'`
+	const getUserInfo = `SELECT User_id, Name, Username, Email, Picture, User_type FROM USER WHERE Username='${username}'`
 	// execute query
 	database.query(getUserInfo, (err, result)=>{
 		if(err){
