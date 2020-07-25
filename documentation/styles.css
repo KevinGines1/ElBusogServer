@@ -93,17 +93,22 @@ body{
 	font-weight: bold;
 }
 
-.tableContainer{
+/*.reqresContainer{*/
 	/*background-color:red;*/
-	margin:10px;
-}
+	/*margin:10px;*/
+/*}*/
 
 table, th, td {
   border: 1px solid black;
   border-radius:5px;
 }
 
-th{
-	font-family:'Fira Sains', sans-serif;
+.Param_Ret_Header{
+	font-family:'Fira Sans', sans-serif;
+	font-size:30px;
+	margin-bottom: 0;
+}
+
+.res, .req{
 	font-size:20px;
 }

@@ -11,54 +11,47 @@
 		<p class="headersubText">API Documentation</p>
 		<a href="https://ancient-garden-70007.herokuapp.com/" class="mainLink">https://ancient-garden-70007.herokuapp.com/</a>
 	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">GET: /api/getAllFoodPlaces</p>
 			<a href="https://ancient-garden-70007.herokuapp.com/api/getAllFoodPlaces" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getAllFoodPlaces</a>
 		</div>
-		<div class="tableContainer">
-			<table>
-				<tr>
-					<th>Parameters: </th>
-					<th>Return Values:</th>
-				</tr>
-				<tr>
-					<td>None</td>
-					<td>
-						<pre>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req">None</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
 {
  "Food_place_id":int,
  "Food_place_name":string,
  "Price_range":string ("<60", "60-100", ">100"),
  "Description":string,
  "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
- "Closing_time":int (in 24-hr format; if open for 24 hours, value is NULL),
+ "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL),
  "Days_open": string (e.g. "Monday-Saturday"),
- "User_id":int (User_id of owner; if NULL, no account owns it)
+ "Food_types" : string (e.g. "Meal, Vegetable, Seafood, Snacks, Ice Cream")
+ "User_id":int (User_id of owner; if NULL, no business owner account owns it)
 }
-						</pre>
-					</td>
-				</tr>
-			</table>
+	</pre>
+</p>
 		</div>
 	</div>
-	<div class="endpointContainer">
+	<!----------------------------------------------------------------------------------------------------------------->
+<!-- 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">GET: /api/getFoodPlace/priceRange/:priceRange</p>
 			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/<60" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/<60</a>
 			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/60-100" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/60-100</a>
 			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/>100" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/>100</a>
 		</div>
-		<div class="tableContainer">
-			<table>
-				<tr>
-					<th>Parameters: </th>
-					<th>Return Values:</th>
-				</tr>
-				<tr>
-					<td><b>:priceRange</b> (should only be: "<60", "60-100", ">100")</td>
-					<td>
-						<pre>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req"><b>:priceRange</b> (should only be: "<60", "60-100", ">100")</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
 {
  "Food_place_id":int,
  "Food_place_name":string,
@@ -69,13 +62,12 @@
  "Days_open": string (e.g. "Monday-Saturday"),
  "User_id":int (User_id of owner; if NULL, no business owner account owns it)
 }
-						</pre>
-					</td>
-				</tr>
-			</table>
+	</pre>
+</p>
 		</div>
-	</div>
-	<div class="endpointContainer">
+	</div> -->
+	<!----------------------------------------------------------------------------------------------------------------->
+<!-- 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">GET: /api/getFoodPlace/foodType/:foodType</p>
 			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Meat" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Meat
@@ -89,16 +81,12 @@
 			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Seafood" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Seafood
 			</a>
 		</div>
-		<div class="tableContainer">
-			<table>
-				<tr>
-					<th>Parameters: </th>
-					<th>Return Values:</th>
-				</tr>
-				<tr>
-					<td><b>:foodType</b> (should only be: "Meal", "Vegetable", "Ice Cream", "Snacks", "Seafood")</td>
-					<td>
-						<pre>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req"><b>:foodType</b> ("Meal", "Vegetable", "Ice Cream", "Snacks", "Seafood")</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
 {
  "Food_place_id":int,
  "Food_place_name":string,
@@ -109,27 +97,21 @@
  "Days_open": string (e.g. "Monday-Saturday"),
  "User_id":int (User_id of owner; if NULL, no business owner account owns it)
 }
-						</pre>
-					</td>
-				</tr>
-			</table>
+	</pre>
+</p>
 		</div>
-	</div>
+	</div> -->
+	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/addFoodPlace</p>
 			<p class="endPointNotes">This should only be used when a user with a Business_owner account will add their own food place</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/addFoodPlace</p>
 		</div>
-		<div class="tableContainer">
-			<table>
-				<tr>
-					<th>Parameters: </th>
-					<th>Return Values:</th>
-				</tr>
-				<tr>
-					<td>
-						<pre>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+	<pre>
 (
 foodPlaceName: string, 
 priceRange: string ("<60", "60-100", ">100"),
@@ -139,10 +121,52 @@ closeTime: string in 24h format (e.g. "2100"), NULL if 24 hours open,
 daysOpen: string (e.g. "Monday-Sunday"),
 owner: string (username of place owner)
 )
-						</pre>
-					</td>
-					<td>
-						<pre>
+	</pre>
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg": "Succesfully added new food place!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">DELETE: /api/removeFoodPlace/:foodPlaceId</p>
+			<p class="endPointNotes">This should only be used when a user with a Business_owner account wants to remove their own foodplace from the site</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/removeFoodPlace/:foodPlaceId</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req"><b>:foodPlaceId</b>(int; id of the food place)</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg": "Succesfully removed food place!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">GET: /api/getOwnFoodPlace/:userID</p>
+			<p class="endPointNotes">This should only be used by a Business_owner account</p>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/getOwnFoodPlace/8" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getOwnFoodPlace/8</a>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req"><b>:foodPlaceId</b>(int; userID of Business_owner account)</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
 {
  "Food_place_id":int,
  "Food_place_name":string,
@@ -153,11 +177,42 @@ owner: string (username of place owner)
  "Days_open": string (e.g. "Monday-Saturday"),
  "User_id":int (User_id of owner; if NULL, no business owner account owns it)
 }
-						</pre>
-					</td>
-				</tr>
-			</table>
+	</pre>
+</p>
 		</div>
 	</div>
+
+	<!----------------------------------------------------------------------------------------------------------------->
+		<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/register</p>
+			<p class="endPointNotes">This should only be used when username and email are validated/unique</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/register</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+	<pre>
+(
+name: string (up to 30 chars), 
+username: string (should be unique, up to 15 chars),
+email : string (should be unique, up to 25 chars),
+password: string,
+picture: string (e.g. should be a link, place this in src; if none is passed, place NULL),
+type: string (either: "Customer" or "Business_owner" CASE SENSITIVE)
+)
+	</pre>
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg" : "Successfully added user!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
 </body>
 </html>

@@ -28,39 +28,39 @@ module.exports.getAllFoodPlaces = (req,res) => { // get all food places in the d
 	})
 }
 
-module.exports.getFoodPlaceWithinRange = (req, res) => { // get food place within the specified price range
-	//get price range from the req, should always be either of the ff: 
-	// <60, 60-100, >100
-	const priceRange = req.params.priceRange
-	//create query
-	const getFoodPlaceWithinRange = `SELECT * FROM FOOD_PLACE WHERE Price_range='${priceRange}'`
-	//execute query
-	database.query(getFoodPlaceWithinRange, async(err, result)=>{
-		if(err){
-			console.log("DATABASE GET FOOD W/IN PRICE RANGE ERR: ", err)
-		}else{
-			console.log(result)
-			res.status(200).json(result)
-		}
-	})	
-}
+// module.exports.getFoodPlaceWithinRange = (req, res) => { // get food place within the specified price range
+// 	//get price range from the req, should always be either of the ff: 
+// 	// <60, 60-100, >100
+// 	const priceRange = req.params.priceRange
+// 	//create query
+// 	const getFoodPlaceWithinRange = `SELECT * FROM FOOD_PLACE WHERE Price_range='${priceRange}'`
+// 	//execute query
+// 	database.query(getFoodPlaceWithinRange, async(err, result)=>{
+// 		if(err){
+// 			console.log("DATABASE GET FOOD W/IN PRICE RANGE ERR: ", err)
+// 		}else{
+// 			console.log(result)
+// 			res.status(200).json(result)
+// 		}
+// 	})	
+// }
 
-module.exports.getFoodPlaceWithFoodType = (req, res) => { // get all food places within the specified food type
-	//get food type from the req, should always be either of the ff: 
-	// Meat, Vegetable, Seafood, Snacks, Ice Cream
-	const foodType = req.params.foodType
-	//create query
-	const getFoodPlaceWithinRange = `SELECT * FROM FOOD_PLACE WHERE Food_place_id IN (SELECT Food_place_id FROM FOOD_PLACE_FOOD WHERE Type_of_food='${foodType}')`
-	//execute query
-	database.query(getFoodPlaceWithinRange, async(err, result)=>{
-		if(err){
-			console.log("DATABASE GET FOOD W/IN PRICE RANGE ERR: ", err)
-		}else{
-			console.log(result)
-			res.status(200).json(result)
-		}
-	})
-}
+// module.exports.getFoodPlaceWithFoodType = (req, res) => { // get all food places within the specified food type
+// 	//get food type from the req, should always be either of the ff: 
+// 	// Meat, Vegetable, Seafood, Snacks, Ice Cream
+// 	const foodType = req.params.foodType
+// 	//create query
+// 	const getFoodPlaceWithinRange = `SELECT * FROM FOOD_PLACE WHERE Food_place_id IN (SELECT Food_place_id FROM FOOD_PLACE_FOOD WHERE Type_of_food='${foodType}')`
+// 	//execute query
+// 	database.query(getFoodPlaceWithinRange, async(err, result)=>{
+// 		if(err){
+// 			console.log("DATABASE GET FOOD W/IN PRICE RANGE ERR: ", err)
+// 		}else{
+// 			console.log(result)
+// 			res.status(200).json(result)
+// 		}
+// 	})
+// }
 
 module.exports.addFoodPlace = (req, res) => { // this function should only be called when a business owner adds their food place
 	//get information in the body
@@ -68,14 +68,15 @@ module.exports.addFoodPlace = (req, res) => { // this function should only be ca
 		name : req.body.foodPlaceName,
 		priceRange : req.body.priceRange,
 		description: req.body.description,
-		openTime: req.body.openTime, // TIME IS IN 24-HR FORMAT
-		closeTime: req.body.closeTime, // TIME IS IN 24-HR FORMAT
+		openTime: req.body.openTime, 
+		closeTime: req.body.closeTime, 
 		daysOpen : req.body.daysOpen,
+		foodTypes : req.body.foodTypes // string
 		owner: req.body.owner // username of the owner
 	}
 
 	//create query
-	const addFoodPlaceQuery = `INSERT INTO FOOD_PLACE(Food_place_name, Price_range, Description, Opening_time, Closing_time, Days_open,User_id) VALUES ("${foodPlaceInfo.name}", "${foodPlaceInfo.priceRange}", "${foodPlaceInfo.description}", TIME_FORMAT("${foodPlaceInfo.openTime}", "%T"), TIME_FORMAT("${foodPlaceInfo.closeTime}", "%T"), "${foodPlaceInfo.daysOpen}", (SELECT User_id from USER where Username="${foodPlaceInfo.owner}"))`
+	const addFoodPlaceQuery = `INSERT INTO FOOD_PLACE(Food_place_name, Price_range, Description, Opening_time, Closing_time, Days_open, Food_types, User_id) VALUES ("${foodPlaceInfo.name}", "${foodPlaceInfo.priceRange}", "${foodPlaceInfo.description}", ${foodPlaceInfo.openTime}, ${foodPlaceInfo.closeTime}, "${foodPlaceInfo.daysOpen}", "${foodPlaceInfo.foodTypes}", (SELECT User_id from USER where Username="${foodPlaceInfo.owner}"))`
 
 	//execute query
 	database.query(addFoodPlaceQuery, async(err, result)=>{
@@ -103,7 +104,23 @@ module.exports.deleteFoodPlace = (req, res) => { // this function should only be
 			res.status(200).json({msg: "Successfully removed food place!"})
 		}
 	})
+}
 
+module.exports.getOwnFoodPlace = (req, res) => { // display foodplaces owned by a Business_owner user
+	// get userID from params
+	const userID = req.params.userID
+
+	//create query
+	const getOwnFoodPlaceQuery = `SELECT * FROM FOOD_PLACE WHERE User_id=${userID}`
+
+	//execute query
+	database.query(getOwnFoodPlaceQuery, (err, result)=>{
+		if(err){
+			console.log("DATABASE GET OWNED FOOD PLACE ERR: ", err)
+		}else{
+			res.status(200).json(result)
+		}
+	})
 }
 
 module.exports.addComment = (req, res) => { // this function should only be called when a CUSTOMER account adds a rating and a comment to a food place
@@ -206,7 +223,7 @@ module.exports.createAccount = async (req, res) => { // creating a customer/busi
 			if(err){
 				console.log("ADD USER TO DB ERR: ", err)
 			}else{
-				res.status(200).json({infoValid: true, msg:"Successfully added user!"})
+				res.status(200).json({msg:"Successfully added user!"})
 			}
 		})
 	}else{
@@ -215,7 +232,7 @@ module.exports.createAccount = async (req, res) => { // creating a customer/busi
 			if(err){
 				console.log("ADD USER TO DB ERR: ", err)
 			}else{
-				res.status(200).json({infoValid: true, msg:"Successfully added user!"})
+				res.status(200).json({msg:"Successfully added user!"})
 			}
 		})
 	}
