@@ -190,7 +190,8 @@ owner: string (username of place owner)
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/register</p>
-			<p class="endPointNotes">This should only be used when username and email are validated/unique</p>
+			<p class="endPointNotes">This should only be used when username and email are validated/unique.</p>
+			<p class="endPointNotes">Check the next 2 endpoints for checking the username and email</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/register</p>
 		</div>
 		<div class="reqresContainer">
@@ -312,5 +313,112 @@ email: string (up to 25 chars),
 		</div>
 	</div>
 	<!----------------------------------------------------------------------------------------------------------------->
+		<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/login</p>
+			<p class="endPointNotes">Please make sure that the input fields are not empty!</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/login</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+	<pre>
+(
+username: string (up to 15 chars), 
+password: string
+)
+	</pre>
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "authorized" : true,
+ "msg" : "Successfully logged in!"
+}
+	</pre>
+	OR
+	<pre>					
+{
+ "authorized" : false,
+ "msg" : "Please check the Username and/or Password
+}
+	</pre>
+
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">DELETE: /api/remove/customer/:username</p>
+			<p class="endPointNotes">Please make sure that the user really wants to delete their account</p>
+			<p class="endPointNotes">The link below is just an example, <strong>PLEASE DON'T GO TO THE LINK OR THE DATABASE DIES</strong></p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/remove/customer/AkoIkawZoren</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req">:username (string, username of user) </p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg" : "Successfully removed account!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">DELETE: /api/remove/owner/:username</p>
+			<p class="endPointNotes">Please make sure that the user really wants to delete their account</p>
+			<p class="endPointNotes">The link below is just an example, <strong>PLEASE DON'T GO TO THE LINK OR THE DATABASE DIES</strong></p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/remove/owner/tita_cora1</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req">:username (string, username of business owner) </p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg" : "Successfully deleted a Business Owner!"
+}
+	</pre>
+</p>
+		</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	</div>
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">DELETE: /api/remove/comment</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/remove/comment</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+<pre>
+(
+userID: int (User_id of the user),
+foodPlaceID: int,
+rating: int,
+comment: string (yung comment mismo)
+)
+</pre> 
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg" : "Successfully deleted an item!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	
 </body>
 </html>

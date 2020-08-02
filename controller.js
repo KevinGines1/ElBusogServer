@@ -164,6 +164,32 @@ module.exports.getComments = (req,res) => { // get comments  and ratings from a 
 	})
 }
 
+module.exports.deleteComments = (req,res) =>{			//child table is fine to delete items
+	//input for query
+	const commentsInfo = {
+		userID : req.body.userID,
+		foodPlaceID : req.body.foodPlaceID,
+		rating : req.body.rating,
+		comment : req.body.comment,
+	}
+	//query here
+	const removeCommentsAndRatingQuery = 'DELETE FROM RATES_COMMENTS WHERE User_id = ? AND Food_place_id = ? AND Rating = ? AND Comment = ?'
+	//executes here
+	database.query(removeCommentsAndRatingQuery, [commentsInfo.userID, commentsInfo.foodPlaceID, commentsInfo.rating, 
+
+commentsInfo.comment], function(error, results, fields){
+		if(results.length != 0){
+			//successful delete
+			res.status(200).json({msg: "Successfully deleted an item!"})
+		}else{
+			//failed to delete
+			res.send("Please check the inputs")
+			console.log("Did not catch one/more of the primary keys")
+		}
+	})
+}
+
+
 module.exports.checkUsername = (req, res) => { // invoke this function when a user is inputing username when creating an account
 	// get username from request
 	const username = req.body.username
@@ -239,23 +265,76 @@ module.exports.createAccount = async (req, res) => { // creating a customer/busi
 	}
 }
 
-module.exports.deleteAccountCustomer = (req, res) => { // to delete an account in the db; before invoking this function, make sure the user really wants to delete his/her account
-	// get username from params
-	const username = req.params.username
+module.exports.loginUser = (req,res) =>{ // login user to website
+	//user input 
+	const checkName = req.body.username
+	const checkPassword = req.body.password
+	if(checkName && checkPassword){ // check if username and password exists
+		// database.query('SELECT * FROM USER WHERE Username = ? AND Password = ?', [checkName, checkPassword], function(error, results, fields){
+		database.query('SELECT * FROM USER WHERE Username = ?', [checkName], async(error, results)=>{
+				console.log("RESULTS: ",results)
+			if(results.length !== 0){
+				let comparePWToHash = await bcrypt.compare(checkPassword, results[0].Password)
+				if(comparePWToHash){
+				// if(checkPassword === results[0].Password){
+					//logged in
+					// req.session.loggedin = true
+					res.status(200).json({ authorized: true, msg: "Successfully logged in!"})
+				}
+			}else{
+				//incorrect username or password
+				res.send({authorized: false, msg:"Please check the Username and/or Password"})
+				console.log("Not in the database")
+			}
+		})
+	}else{
+		//no inputs
+		console.log("Caught no username or password")
+		res.send("Please enter the username and password in the fields")
+	}
+}
 
-	// MAKE SURE THAT THE ACCOUNT TYPE IS "Customer" !!!!
-	//create query
-	const deleteAccQuery = `DELETE FROM USER WHERE Username='${username}'`
-	//execute query
-	database.query(deleteAccQuery, (err, result)=>{
+
+module.exports.deleteAccountCustomer = (req,res) =>{	//Delete commentsAndRatings first before user 
+	//input
+	const username = req.params.username
+	//execute query here: Rates and Comments Delete
+	database.query(`DELETE FROM RATES_COMMENTS WHERE User_id=(SELECT User_id FROM USER WHERE Username = '${username}')`, (err, result) =>{
 		if(err){
-			console.log("DELETE ACC IN DB ERR: ", err)
+			console.log("DELETE Comments IN DB ERR: ", err)
 		}else{
+			//execute query here: Customer Delete 2nd part
 			console.log(result)
-			res.status(200).json({msg: "Successfully removed account!"})
+			database.query(`DELETE FROM USER WHERE Username = '${username}'`, (err, result)=>{
+				if(err){
+					console.log("DELETE ACC IN DB ERR: ", err)
+				}else{
+					console.log(result)
+					res.status(200).json({msg: "Successfully removed account!"})
+				}
+			})
 		}
 	})
+}
 
+module.exports.deleteBusinessOwner = (req,res) =>{		//Works with delete cascade
+	//input
+	// const foodPlaceId = req.body.foodPlaceId
+	const username = req.params.username
+	//query here
+	const deleteBusinessOwnerQuery = `DELETE FROM USER WHERE Username = '${username}'`
+	//executes here
+	database.query(deleteBusinessOwnerQuery, function(error, results, fields){
+		console.log("results: ",results)
+		if(results.length !==0){
+			//successful delete
+			res.status(200).json({msg: "Successfully deleted a Business Owner!"})
+		}else{
+			//fails to delete
+			res.send("Please check the IDs")
+			console.log("Incomplete Parameters")
+		}
+	})
 }
 
 module.exports.getProfile = (req, res) => { // get the information of a user; invoke this only when user is logged in
@@ -275,6 +354,82 @@ module.exports.getProfile = (req, res) => { // get the information of a user; in
 }
 
 
+module.exports.updateAccountInfo = async (req,res) =>{
+	//input 
+	const userID = req.body.userID
+	const username = req.body.origUsername
+	const updateInfo = {		//Null for no changes
+		name : req.body.newName,
+		username : req.body.newUsername,
+		email : req.body.newEmail, 
+		password : req.body.newPassword,
+		picture : req.body.newPicturePath,
+	}
+
+	if(updateInfo.username){
+		//check in database if it's unique
+		database.query('SELECT * FROM USER WHERE Username = ?', [updateInfo.username], function(error, results, fields){
+			if(results.length===0){
+				//usernameNew is unique
+				database.query(`UPDATE USER SET Username = '${updateInfo.username}' WHERE Username = '${username}'`)
+				console.log("Updated Username")
+				// res.status(200).json({msg:"Successfully updated username!"})
+			}else{
+				//return
+				console.log("Username not unique")
+				return res.send("Please use another Username")
+				// return 						//early return?
+			}
+		})
+	}
+	if(updateInfo.email){
+		//check in database if it's unique
+		database.query('SELECT * FROM USER WHERE Email = ?', [updateInfo.email], function(error, results, fields){
+			if(results.length==0){
+				//email is unique
+				database.query(`UPDATE USER SET Email = '${updateInfo.email}' WHERE Username = '${username}'`)
+				console.log("Updated Email")
+				// res.status(200).json({msg:"Successfully updated email!"})
+			}else{
+				//return
+				console.log("Email not unique")
+				return res.send("Please use another email ")
+				// return 						//early return?
+			}
+		})
+	}
+
+	//possible changes for Name, Password, Picture not sure how to make it efficient lmao; will not check if user puts the same inputs
+	if(updateInfo.name){
+		database.query(`UPDATE USER SET Name = '${updateInfo.name}' WHERE Username = '${username}'`)
+		console.log("Updated Name")
+		// res.status(200).json({msg:"Successfully updated name!"})
+	}
+	if(updateInfo.password){
+		let userPW = await bcrypt.hash(updateInfo.password, 8)
+		database.query(`UPDATE USER SET Password = '${userPW}' WHERE Username = '${username}'`)
+		console.log("Updated Password")
+		// res.status(200).json({msg:"Successfully updated password!"})
+	}
+	if(updateInfo.picture){
+		database.query(`UPDATE USER SET Picture = '${updateInfo.picture}' WHERE Username = '${username}'`)
+		console.log("Updated Picture")
+		// res.status(200).json({msg:"Successfully updated picture!"})
+	}
+
+	database.query(`SELECT * FROM USER WHERE User_id = ${userID}`, (err, result)=>{
+		if(err){
+			console.log("UPDATE PROFILE INFO ERR IN DB: ", err)
+		}else{
+			console.log("NEW DATA: ", result)
+			res.status(200).json(result)
+		}
+	})
+}
+
+
+
+
 module.exports.showAllUsers = (req, res) => { // dummy function, not useful for actual app
 	//create query
 	const getAllUsersQuery = `SELECT * FROM USER`
@@ -289,5 +444,6 @@ module.exports.showAllUsers = (req, res) => { // dummy function, not useful for 
 		}
 	})
 }
+
 
 
