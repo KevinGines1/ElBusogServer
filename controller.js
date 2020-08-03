@@ -77,7 +77,7 @@ module.exports.addFoodPlace = (req, res) => { // this function should only be ca
 	}
 
 	//create query
-	const addFoodPlaceQuery = `INSERT INTO FOOD_PLACE(Food_place_name, Location, Price_range, Description, Opening_time, Closing_time, Days_open, Food_types, User_id) VALUES ("${foodPlaceInfo.name}", "${foodPlaceInfo.location}",${foodPlaceInfo.priceRange}", "${foodPlaceInfo.description}", ${foodPlaceInfo.openTime}, ${foodPlaceInfo.closeTime}, "${foodPlaceInfo.daysOpen}", "${foodPlaceInfo.foodTypes}", (SELECT User_id from USER where Username="${foodPlaceInfo.owner}"))`
+	const addFoodPlaceQuery = `INSERT INTO FOOD_PLACE(Food_place_name, Location, Price_range, Description, Opening_time, Closing_time, Days_open, Food_types, User_id) VALUES ("${foodPlaceInfo.name}", "${foodPlaceInfo.location}","${foodPlaceInfo.priceRange}", "${foodPlaceInfo.description}", ${foodPlaceInfo.openTime}, ${foodPlaceInfo.closeTime}, "${foodPlaceInfo.daysOpen}", "${foodPlaceInfo.foodTypes}", (SELECT User_id from USER where Username="${foodPlaceInfo.owner}"))`
 
 	//execute query
 	database.query(addFoodPlaceQuery, async(err, result)=>{
