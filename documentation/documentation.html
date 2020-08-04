@@ -419,6 +419,37 @@ comment: string (yung comment mismo)
 		</div>
 	</div>
 	<!----------------------------------------------------------------------------------------------------------------->
+		<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/profile/update</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/profile/update</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+	<pre>
+(
+userID: int (User_id of the user), 
+origUsername: string (the <strong>ORIGINAL/OLD USERNAME</strong>),
+newName : string (up to 30 chars, <strong>IF UNCHANGED, PASS THE OLD VALUE</strong>),
+newUsername : string (up to 15 chars, <strong>IF UNCHANGED, PASS THE OLD VALUE</strong>)
+newEmail: string, (up to 25 chars, <strong>IF UNCHANGED, PASS THE OLD VALUE</strong>)
+newPassword: string, (<strong>IF UNCHANGED, PASS THE OLD VALUE</strong>)
+picture: string (e.g. should be a link, place this in src; if none is passed, place NULL. Also, <strong>IF UNCHANGED, PASS THE OLD VALUE</strong>),
+)
+	</pre>
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg" : "Successfully updated profile!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
 	
 </body>
 </html>

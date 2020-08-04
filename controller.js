@@ -356,9 +356,9 @@ module.exports.getProfile = (req, res) => { // get the information of a user; in
 
 module.exports.updateAccountInfo = async (req,res) =>{
 	//input 
-	const userID = req.body.userID
+	const userID = Number (req.body.userID)
 	const username = req.body.origUsername
-	const updateInfo = {		//Null for no changes
+	const updateInfo = {		//Send current/old values if no changes
 		name : req.body.newName,
 		username : req.body.newUsername,
 		email : req.body.newEmail, 
@@ -366,65 +366,84 @@ module.exports.updateAccountInfo = async (req,res) =>{
 		picture : req.body.newPicturePath,
 	}
 
-	if(updateInfo.username){
-		//check in database if it's unique
-		database.query('SELECT * FROM USER WHERE Username = ?', [updateInfo.username], function(error, results, fields){
-			if(results.length===0){
-				//usernameNew is unique
-				database.query(`UPDATE USER SET Username = '${updateInfo.username}' WHERE Username = '${username}'`)
-				console.log("Updated Username")
-				// res.status(200).json({msg:"Successfully updated username!"})
-			}else{
-				//return
-				console.log("Username not unique")
-				return res.send("Please use another Username")
-				// return 						//early return?
-			}
-		})
-	}
-	if(updateInfo.email){
-		//check in database if it's unique
-		database.query('SELECT * FROM USER WHERE Email = ?', [updateInfo.email], function(error, results, fields){
-			if(results.length==0){
-				//email is unique
-				database.query(`UPDATE USER SET Email = '${updateInfo.email}' WHERE Username = '${username}'`)
-				console.log("Updated Email")
-				// res.status(200).json({msg:"Successfully updated email!"})
-			}else{
-				//return
-				console.log("Email not unique")
-				return res.send("Please use another email ")
-				// return 						//early return?
-			}
-		})
-	}
-
-	//possible changes for Name, Password, Picture not sure how to make it efficient lmao; will not check if user puts the same inputs
-	if(updateInfo.name){
-		database.query(`UPDATE USER SET Name = '${updateInfo.name}' WHERE Username = '${username}'`)
-		console.log("Updated Name")
-		// res.status(200).json({msg:"Successfully updated name!"})
-	}
-	if(updateInfo.password){
-		let userPW = await bcrypt.hash(updateInfo.password, 8)
-		database.query(`UPDATE USER SET Password = '${userPW}' WHERE Username = '${username}'`)
-		console.log("Updated Password")
-		// res.status(200).json({msg:"Successfully updated password!"})
-	}
-	if(updateInfo.picture){
-		database.query(`UPDATE USER SET Picture = '${updateInfo.picture}' WHERE Username = '${username}'`)
-		console.log("Updated Picture")
-		// res.status(200).json({msg:"Successfully updated picture!"})
-	}
-
-	database.query(`SELECT * FROM USER WHERE User_id = ${userID}`, (err, result)=>{
-		if(err){
-			console.log("UPDATE PROFILE INFO ERR IN DB: ", err)
+	//check in database if username is unique
+	database.query('SELECT * FROM USER WHERE Username = ?', [updateInfo.username], function(error, results, fields){
+		if(results.length!==0 && results[0].User_id!==userID){
+			//return
+			console.log("Username not unique")
+			return res.json({msg: "Please use another Username"})
 		}else{
-			console.log("NEW DATA: ", result)
-			res.status(200).json(result)
+			// console.log("Username is unique")
+			database.query('SELECT * FROM USER WHERE Email = ?', [updateInfo.email], async function(error, results, fields){
+				if(results.length!==0  && results[0].User_id!==userID){
+					//return
+					console.log("Email not unique")
+					return res.json({msg: "Please use another email "})
+					// return 						//early return
+				}else{
+					//username and email is unique
+					// check the password first if its new 
+					database.query(`SELECT Password from USER WHERE User_id=${userID}`, async (err, results)=>{
+						let comparePWToHash = await bcrypt.compare(updateInfo.password, results[0].Password)
+						// console.log(comparePWToHash)
+						if(comparePWToHash){ // password unchanged
+							// console.log("updated but not the password")
+							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Picture = '${updateInfo.picture}'  WHERE User_id = ${userID}`, (err, result)=>{
+								if(err){
+									console.log("UPDATE USER W/O PW ERROR IN DB: ", err)
+								}else{
+									console.log("successfully updated profile without password ")
+									return res.status(200).json({msg: "Successfully updated profile!"})
+								} 
+							})						
+						}else{ // new password
+							//encrypt new password
+							let userPW = await bcrypt.hash(updateInfo.password, 8)
+							// console.log("new PW: ", userPW)
+							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Password='${userPW}', Picture = '${updateInfo.picture}'  WHERE User_id = ${userID}`, (err, result)=>{
+								if(err) {
+									console.log("UPDATE USER WITH PW ERROR IN DB: ", err)
+								}else{
+									console.log("successfully updated profile ")
+									return res.status(200).json({msg: "Successfully updated profile!"})
+								} 
+							})	
+						}
+					})
+				}
+			})
 		}
 	})
+
+	//check in database if email is unique
+
+
+	// //possible changes for Name, Password, Picture not sure how to make it efficient lmao; will not check if user puts the same inputs
+	// if(updateInfo.name){
+	// 	database.query(`UPDATE USER SET Name = '${updateInfo.name}' WHERE Username = '${username}'`)
+	// 	console.log("Updated Name")
+	// 	// res.status(200).json({msg:"Successfully updated name!"})
+	// }
+	// if(updateInfo.password){
+	// 	let userPW = await bcrypt.hash(updateInfo.password, 8)
+	// 	database.query(`UPDATE USER SET Password = '${userPW}' WHERE Username = '${username}'`)
+	// 	console.log("Updated Password")
+	// 	// res.status(200).json({msg:"Successfully updated password!"})
+	// }
+	// if(updateInfo.picture){
+	// 	database.query(`UPDATE USER SET Picture = '${updateInfo.picture}' WHERE Username = '${username}'`)
+	// 	console.log("Updated Picture")
+	// 	// res.status(200).json({msg:"Successfully updated picture!"})
+	// }
+
+	// database.query(`SELECT * FROM USER WHERE User_id = ${userID}`, (err, result)=>{
+	// 	if(err){
+	// 		console.log("UPDATE PROFILE INFO ERR IN DB: ", err)
+	// 	}else{
+	// 		console.log("NEW DATA: ", result)
+	// 		res.status(200).json(result)
+	// 	}
+	// })
 }
 
 
