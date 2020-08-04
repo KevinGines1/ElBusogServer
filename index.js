@@ -19,11 +19,14 @@ app.use('/', express.static('./documentation'))
 
 // allow different origins to access the server
 app.use((req,res,next)=>{
-	res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+	// res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+	res.header("Access-Control-Allow-Origin", "*")
 	res.header("Access-Control-Allow-Headers", "*")
 	// res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET')
 
 	if(req.method === "OPTIONS"){
+		// res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+		res.header("Access-Control-Allow-Origin", "*")
 		res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET')
 		res.header("Access-Control-Allow-Credentials", true);
 		// return res.status(200).json({})
