@@ -17,17 +17,6 @@ const app = express()
 // app.use(express.static('documentation'))
 app.use('/', express.static('./documentation'))
 
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended:false}))
-// app.use(cors)
-// app.use(cors({
-//     origin:[
-//         'http://localhost:3000'
-//     ],
-//     credentials:true
-// }))
-
 // allow different origins to access the server
 app.use((req,res,next)=>{
 	res.header("Access-Control-Allow-Origin", "*")
@@ -42,6 +31,17 @@ app.use((req,res,next)=>{
 
 	next();
 })
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:false}))
+// app.use(cors)
+// app.use(cors({
+//     origin:[
+//         'http://localhost:3000'
+//     ],
+//     credentials:true
+// }))
+
 
 app.use(cookieParser())
 
