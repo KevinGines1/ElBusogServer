@@ -128,7 +128,7 @@ module.exports.addComment = (req, res) => { // this function should only be call
 	// get input from user
 	const ratingInfo = {
 		userId : req.body.userID,
-		foodPlaceId : req.body.foodPlaceId,
+		foodPlaceId : req.body.foodPlaceID,
 		rating : req.body.rating, // value should only be 1-5 (star rating)
 		comment : req.body.comment
 	}
@@ -364,6 +364,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 		email : req.body.newEmail, 
 		password : req.body.newPassword,
 		picture : req.body.newPicturePath,
+		accType : req.body.accType === "Business_owner" ? "Business_owner" : "Customer"
 	}
 
 	//check in database if username is unique
@@ -388,7 +389,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 						// console.log(comparePWToHash)
 						if(comparePWToHash){ // password unchanged
 							// console.log("updated but not the password")
-							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Picture = '${updateInfo.picture}'  WHERE User_id = ${userID}`, (err, result)=>{
+							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Picture = '${updateInfo.picture}', User_type = '${updateInfo.accType}'  WHERE User_id = ${userID}`, (err, result)=>{
 								if(err){
 									console.log("UPDATE USER W/O PW ERROR IN DB: ", err)
 								}else{
@@ -400,7 +401,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 							//encrypt new password
 							let userPW = await bcrypt.hash(updateInfo.password, 8)
 							// console.log("new PW: ", userPW)
-							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Password='${userPW}', Picture = '${updateInfo.picture}'  WHERE User_id = ${userID}`, (err, result)=>{
+							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Password='${userPW}', Picture = '${updateInfo.picture}, 'User_type = '${updateInfo.accType}'  WHERE User_id = ${userID}`, (err, result)=>{
 								if(err) {
 									console.log("UPDATE USER WITH PW ERROR IN DB: ", err)
 								}else{
@@ -414,38 +415,37 @@ module.exports.updateAccountInfo = async (req,res) =>{
 			})
 		}
 	})
-
-	//check in database if email is unique
-
-
-	// //possible changes for Name, Password, Picture not sure how to make it efficient lmao; will not check if user puts the same inputs
-	// if(updateInfo.name){
-	// 	database.query(`UPDATE USER SET Name = '${updateInfo.name}' WHERE Username = '${username}'`)
-	// 	console.log("Updated Name")
-	// 	// res.status(200).json({msg:"Successfully updated name!"})
-	// }
-	// if(updateInfo.password){
-	// 	let userPW = await bcrypt.hash(updateInfo.password, 8)
-	// 	database.query(`UPDATE USER SET Password = '${userPW}' WHERE Username = '${username}'`)
-	// 	console.log("Updated Password")
-	// 	// res.status(200).json({msg:"Successfully updated password!"})
-	// }
-	// if(updateInfo.picture){
-	// 	database.query(`UPDATE USER SET Picture = '${updateInfo.picture}' WHERE Username = '${username}'`)
-	// 	console.log("Updated Picture")
-	// 	// res.status(200).json({msg:"Successfully updated picture!"})
-	// }
-
-	// database.query(`SELECT * FROM USER WHERE User_id = ${userID}`, (err, result)=>{
-	// 	if(err){
-	// 		console.log("UPDATE PROFILE INFO ERR IN DB: ", err)
-	// 	}else{
-	// 		console.log("NEW DATA: ", result)
-	// 		res.status(200).json(result)
-	// 	}
-	// })
 }
 
+module.exports.updateFoodPlace = async (req,res) =>{ // this should only be invoked by the business owner
+	//input 
+	const foodPlaceID = Number (req.body.foodPlaceID)
+	const updateInfo = {		//Send current/old values if no changes
+		foodPlaceName : req.body.newName,
+		location : req.body.newLocation,
+		priceRange : req.body.newPrice, 
+		description : req.body.newDesc,
+		openTime : req.body.newOpen, // NULL if 24 hr open; 100-2400
+		closeTime : req.body.newClose, // NULL; 100-2400
+		daysOpen : req.body.newDays, // 0123456
+		foodTypes : req.body.newFoodTypes, // Meat, Vegetable, Seafood, Ice Cream, Snacks
+		// longitude : req.body.longitude,
+		// latitude : req.body.latitude
+	}
+
+	//construct query
+	const editFoodPlaceQuery = `UPDATE FOOD_PLACE SET Food_place_name="${updateInfo.foodPlaceName}", Location="${updateInfo.location}", Price_range="${updateInfo.priceRange}", Description="${updateInfo.description}", Opening_time="${updateInfo.openTime}", Closing_time="${updateInfo.closeTime}", Days_open="${updateInfo.daysOpen}", Food_types="${updateInfo.foodTypes}" WHERE Food_place_id=${foodPlaceID}`
+
+
+	database.query(editFoodPlaceQuery, (err,result)=>{
+		if(err){
+			console.log("EDIT FOOD PLACE ERR IN DB: ", err)
+		}else{
+			console.log("Updated food place! ")
+			res.status(200).json({msg: "Successfully updated food place!"})
+		}
+	})
+}
 
 
 

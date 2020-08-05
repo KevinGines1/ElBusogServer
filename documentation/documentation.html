@@ -118,8 +118,8 @@ foodPlaceName: string,
 location: string, (should only be: "within UPLB", "Grove", "Raymundo", "Demarces", You can place multiple in one string e.g. "Raymundo, Demarces")
 priceRange: string ("<60", "60-100", ">100"),
 description : string (up to 280 chars only),
-openTime: string in 24h format (e.g. "900"), place NULL if 24 hours open,
-closeTime: string in 24h format (e.g. "2100"), place NULL if 24 hours open,
+openTime: string in 24h format (e.g. "900"), place NULL if 24 hours open, VALID VALUES ARE FROM 100 TO 2400,
+closeTime: string in 24h format (e.g. "2100"), place NULL if 24 hours open VALID VALUES ARE FROM 100 TO 2400,
 daysOpen: string (e.g. "0123456" where 0=Sunday, 1=Monday, ..., 6=Saturday),
 foodTypes: string (e.g. "Meat" or "Meat, Vegetable, Snacks, Ice Cream"; <b>Place all in a SINGLE string separated by commas</b>)
 owner: string (username of place owner)
@@ -421,7 +421,7 @@ comment: string (yung comment mismo)
 	<!----------------------------------------------------------------------------------------------------------------->
 		<div class="endpointContainer">
 		<div class="endpointLink">
-			<p class="endPoint">POST: /api/profile/update</p>
+			<p class="endPoint">PATCH: /api/profile/update</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/profile/update</p>
 		</div>
 		<div class="reqresContainer">
@@ -436,7 +436,7 @@ newUsername : string (up to 15 chars, <strong>IF UNCHANGED, PASS THE OLD VALUE</
 newEmail: string, (up to 25 chars, <strong>IF UNCHANGED, PASS THE OLD VALUE</strong>)
 newPassword: string, (<strong>IF UNCHANGED, PASS THE OLD VALUE</strong>)
 newPicturePath: string (e.g. should be a link, place this in src; if none is passed, place NULL. Also, <strong>IF UNCHANGED, PASS THE OLD VALUE</strong>),
-)
+accType: string (should only be either "Customer" or "Business_owner"; <strong>IF UNCHANGED, PASS THE OLD VALUE</strong>),
 	</pre>
 </p>
 			<p class="Param_Ret_Header">Return values: </p>
@@ -446,6 +446,115 @@ newPicturePath: string (e.g. should be a link, place this in src; if none is pas
  "msg" : "Successfully updated profile!"
 }
 	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+		<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">PATCH: /api/editFoodPlace</p>
+			<p class="endPointNotes">This should only be used when a user with a Business_owner account will update their own food place</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/editFoodPlace</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+	<pre>
+(
+newName: string,
+newLocation: string, (should only be: "within UPLB", "Grove", "Raymundo", "Demarces", You can place multiple in one string e.g. "Raymundo, Demarces")
+newPrice: string ("<60", "60-100", ">100"),
+newDesc : string (up to 280 chars only),
+newOpen: string in 24h format (e.g. "900"), place NULL if 24 hours open, VALID VALUES ARE FROM 100 TO 2400,
+newClose: string in 24h format (e.g. "2100"), place NULL if 24 hours open VALID VALUES ARE FROM 100 TO 2400,
+newDays: string (e.g. "0123456" where 0=Sunday, 1=Monday, ..., 6=Saturday),
+newFoodTypes: string (e.g. "Meat" or "Meat, Vegetable, Snacks, Ice Cream"; <b>Place all in a SINGLE string separated by commas</b>)
+owner: string (username of place owner)
+)
+	</pre>
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg": "Succesfully updated food place!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	</div>
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/addComment</p>
+			<p class="endPointNotes"><strong>Make sure that the account type is "Customer" before adding a comment. The API will not check it kasi. Business_owners are not allowed to add comments!</strong></p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/addComment</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+<p class="req">
+<pre>
+(
+userID: int (User_id of the user),
+foodPlaceID: int, (Food_place_id of the food place)
+rating: int, (value should only be from 1-5 - This is the star rating)
+comment: string (yung comment mismo)
+)
+</pre> 
+</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+	<pre>					
+{
+ "msg" : "Successfully added comment!"
+}
+	</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+		</div>
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/comments/:foodPlaceId</p>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/comments/3" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/comments/3</a>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req">:foodPlaceId (Food_place_id of the food place)</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+<pre>		
+[
+	{
+        "User_id": int,
+        "Food_place_id": int,
+        "Rating": int,
+        "Comment": string,
+        "Date_posted": "0000-00-00"
+	}
+]
+
+EXAMPLE: (if you click the link on the header)
+
+[
+    {
+        "User_id": 4,
+        "Food_place_id": 3,
+        "Rating": 4,
+        "Comment": "Miss ko na chickenjoy huhu",
+        "Date_posted": "2020-08-04T16:00:00.000Z"
+    },
+    {
+        "User_id": 4,
+        "Food_place_id": 3,
+        "Rating": 4,
+        "Comment": "SARAP NG CHICKEN AMP PERO BAKIT DI KAYO 24H OPEN HUHU",
+        "Date_posted": "0000-00-00"
+    }
+]
+</pre>
 </p>
 		</div>
 	</div>
