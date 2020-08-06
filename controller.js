@@ -255,7 +255,7 @@ module.exports.createAccount = async (req, res) => { // creating a customer/busi
 			}
 		})
 	}else{
-		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password, Picture,  User_type) VALUES ("${userInfo.name}","${userInfo.username}", "${userInfo.email}", "${userPW}", "${userInfo.picture}", "${userInfo.type}"")`
+		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password, Picture,  User_type) VALUES ("${userInfo.name}","${userInfo.username}", "${userInfo.email}", "${userPW}", "${userInfo.picture}", "${userInfo.type}")`
 		database.query(addUserToDBQuery, (err, result)=>{
 			if(err){
 				console.log("ADD USER TO DB ERR: ", err)
