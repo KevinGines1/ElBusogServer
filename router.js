@@ -15,7 +15,7 @@ module.exports = (app) => {
 	app.get('/api/profile/:username', 							controller.getProfile) //
 	app.post('/api/login', 								        controller.loginUser) //
 	app.post('/api/addComment', 								controller.addComment) //
-	app.get('/api/comments/:foodPlaceId', 						controller.getComments)
+	app.get('/api/comments/:foodPlaceId', 						controller.getComments) //
 	app.delete('/api/remove/customer/:username', 				controller.deleteAccountCustomer) //
 	app.delete('/api/remove/owner/:username',     				controller.deleteBusinessOwner) //
 	app.delete('/api/remove/comment',     			        	controller.deleteComments) //
