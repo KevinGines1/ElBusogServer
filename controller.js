@@ -234,30 +234,32 @@ module.exports.createAccount = async (req, res) => { // creating a customer/busi
 	// invoke this function only when the username and email have been validated
 	// get info from the request
 	const userInfo = {
-		name : req.body.name,
-		username : req.body.username,
-		email : req.body.email,
-		password: req.body.password,
-		picture: req.body.picture, // if none is passed, request should make the value of this as "NULL"
-		type: req.body.type // value should only be "Customer" or "Business_owner"
+		name : req.body.Name,
+		username : req.body.Username,
+		email : req.body.Email,
+		password: req.body.Password,
+		picture: req.body.Picture, // if none is passed, request should make the value of this as "NULL"
+		type: req.body.User_type // value should only be "Customer" or "Business_owner"
 	}
 
 	let userPW = await bcrypt.hash(userInfo.password, 8) // encrypting for security
 	// add account to db
-	if(userInfo.picture === "NULL"){
-		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password,  User_type) VALUES ('${userInfo.name}','${userInfo.username}', '${userInfo.email}', '${userPW}', '${userInfo.type}')`
+	if(userInfo.picture === "NULL" || userInfo.picture === null){
+		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password,  User_type) VALUES ("${userInfo.name}","${userInfo.username}", "${userInfo.email}", "${userPW}", "${userInfo.type}")`
 		database.query(addUserToDBQuery, (err, result)=>{
 			if(err){
 				console.log("ADD USER TO DB ERR: ", err)
+				throw new Error("AARON ERR ", err)
 			}else{
 				res.status(200).json({msg:"Successfully added user!"})
 			}
 		})
 	}else{
-		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password, Picture,  User_type) VALUES ('${userInfo.name}','${userInfo.username}', '${userInfo.email}', '${userPW}', '${userInfo.picture}', '${userInfo.type}')`
+		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password, Picture,  User_type) VALUES ("${userInfo.name}","${userInfo.username}", "${userInfo.email}", "${userPW}", "${userInfo.picture}", "${userInfo.type}"")`
 		database.query(addUserToDBQuery, (err, result)=>{
 			if(err){
 				console.log("ADD USER TO DB ERR: ", err)
+				throw new Error("AARON ERR 2", err)
 			}else{
 				res.status(200).json({msg:"Successfully added user!"})
 			}
@@ -389,7 +391,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 						// console.log(comparePWToHash)
 						if(comparePWToHash){ // password unchanged
 							// console.log("updated but not the password")
-							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Picture = '${updateInfo.picture}', User_type = '${updateInfo.accType}'  WHERE User_id = ${userID}`, (err, result)=>{
+							database.query(`UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`, (err, result)=>{
 								if(err){
 									console.log("UPDATE USER W/O PW ERROR IN DB: ", err)
 									throw new Error("ZEIT ERROR: ", err)
@@ -402,7 +404,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 							//encrypt new password
 							let userPW = await bcrypt.hash(updateInfo.password, 8)
 							// console.log("new PW: ", userPW)
-							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Password='${userPW}', Picture = '${updateInfo.picture}, 'User_type = '${updateInfo.accType}'  WHERE User_id = ${userID}`, (err, result)=>{
+							database.query(`UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`, (err, result)=>{
 								if(err) {
 									console.log("UPDATE USER WITH PW ERROR IN DB: ", err)
 									throw new Error("ZEIT ERROR2: ", err)
