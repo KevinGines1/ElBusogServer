@@ -392,6 +392,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Picture = '${updateInfo.picture}', User_type = '${updateInfo.accType}'  WHERE User_id = ${userID}`, (err, result)=>{
 								if(err){
 									console.log("UPDATE USER W/O PW ERROR IN DB: ", err)
+									return err
 								}else{
 									console.log("successfully updated profile without password ")
 									return res.status(200).json({msg: "Successfully updated profile!"})
@@ -404,6 +405,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 							database.query(`UPDATE USER SET Name='${updateInfo.name}', Username = '${updateInfo.username}', Email = '${updateInfo.email}', Password='${userPW}', Picture = '${updateInfo.picture}, 'User_type = '${updateInfo.accType}'  WHERE User_id = ${userID}`, (err, result)=>{
 								if(err) {
 									console.log("UPDATE USER WITH PW ERROR IN DB: ", err)
+									return err
 								}else{
 									console.log("successfully updated profile ")
 									return res.status(200).json({msg: "Successfully updated profile!"})
