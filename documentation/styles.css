@@ -10,6 +10,11 @@ body{
 	text-align:center;
 }
 
+.logo {
+	margin-top:10px;
+	background-color: rgba(255,255,255, 0.5);
+	border-radius:15px;
+}
 .headerText{
 	font-family:'Fira Sans', sans-serif;
 	font-size:50px;

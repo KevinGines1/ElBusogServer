@@ -451,7 +451,22 @@ module.exports.updateFoodPlace = async (req,res) =>{ // this should only be invo
 	})
 }
 
+module.exports.getFoodPlacePhotos = (req,res) =>{
+	const foodPlaceID = req.params.foodPlaceID
 
+	//construct query
+	const getPhotosQuery = `SELECT * from FOOD_PLACE_PICTURES WHERE Food_place_id=${foodPlaceID}`
+
+	database.query(getPhotosQuery, (err, result)=>{
+		if(err){
+			console.log("GET PHOTOS FROM DB ERR: ", err)
+			throw new Error("GET PHOTOS ERROR IN DB: ", err)
+		}else{
+			console.log(result)
+			res.status(200).json(result)
+		}
+	})
+}
 
 module.exports.showAllUsers = (req, res) => { // dummy function, not useful for actual app
 	//create query

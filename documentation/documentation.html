@@ -7,10 +7,9 @@
 </head>
 <body>
 	<div class="header">
-		<p class="headerText">ElBusog</p>
+		<img src="https://lh3.googleusercontent.com/WpGGtL1mgNh9V80yyh6Qk2gCQbQ6SKZay7NMqdJJNY7FGPNsrTyzgbghKoazzx_hy-WoDFHgVhkWyN6tf96CSUznZhLrf1grhSZ88hzV-hWn8pOVSaVTjy9O-cH2xfC3zB9TuFEU7w=s80-p-k" alt="LOGO" class="logo"/>
 		<p class="headersubText">API Documentation</p>
 		<a href="https://ancient-garden-70007.herokuapp.com/" class="mainLink">https://ancient-garden-70007.herokuapp.com/</a>
-		<img src="https://photos.app.goo.gl/FCEUkxJHJfYtxpRM7" alt="LOGO"/>
 	</div>
 	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
@@ -23,19 +22,21 @@
 			<p class="req">None</p>
 			<p class="Param_Ret_Header">Return values: </p>
 <p class="res">
-	<pre>					
-{
- "Food_place_id":int,
- "Food_place_name":string,
- "Location" : string,
- "Price_range":string ("<60", "60-100", ">100"),
- "Description":string,
- "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL, displayed as "900" for 9:00 AM),
- "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL, displayed as "2100" for 9:00 PM),
- "Days_open": string (e.g. "0123456" where 0=Sunday, 1=Monday, ..., 6=Saturday),
- "Food_types" : string (e.g. "Meal, Vegetable, Seafood, Snacks, Ice Cream")
- "User_id":int (User_id of owner; if NULL, no business owner account owns it)
-}
+	<pre>	
+[					
+	{
+	 "Food_place_id":int,
+	 "Food_place_name":string,
+	 "Location" : string,
+	 "Price_range":string ("<60", "60-100", ">100"),
+	 "Description":string,
+	 "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL, displayed as "900" for 9:00 AM),
+	 "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL, displayed as "2100" for 9:00 PM),
+	 "Days_open": string (e.g. "0123456" where 0=Sunday, 1=Monday, ..., 6=Saturday),
+	 "Food_types" : string (e.g. "Meal, Vegetable, Seafood, Snacks, Ice Cream")
+	 "User_id":int (User_id of owner; if NULL, no business owner account owns it)
+	}
+]
 	</pre>
 </p>
 		</div>
@@ -390,8 +391,8 @@ password: string
 	</pre>
 </p>
 		</div>
-	<!----------------------------------------------------------------------------------------------------------------->
 	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">DELETE: /api/remove/comment</p>
@@ -485,7 +486,6 @@ owner: string (username of place owner)
 		</div>
 	</div>
 	<!----------------------------------------------------------------------------------------------------------------->
-	</div>
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/addComment</p>
@@ -515,7 +515,6 @@ comment: string (yung comment mismo)
 		</div>
 	</div>
 	<!----------------------------------------------------------------------------------------------------------------->
-		</div>
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/comments/:foodPlaceId</p>
@@ -553,6 +552,41 @@ EXAMPLE: (if you click the link on the header)
         "Rating": 4,
         "Comment": "SARAP NG CHICKEN AMP PERO BAKIT DI KAYO 24H OPEN HUHU",
         "Date_posted": "0000-00-00"
+    }
+]
+</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">GET: /api/comments/:foodPlaceID</p>
+			<a href="https://ancient-garden-70007.herokuapp.com/api/photos/11" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/photos/11</a>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req">:foodPlaceID (Food_place_id of the food place)</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+<pre>		
+[
+	{
+        "Food_place_id": int,
+        "Photos": string, place this in src
+	}
+]
+
+EXAMPLE: (if you click the link on the header)
+
+[
+    {
+        "Food_place_id": 11,
+        "Picture": "https://lh3.googleusercontent.com/rlSvp6xwSMZ..."
+    },
+    {
+        "Food_place_id": 11,
+        "Picture": "https://lh3.googleusercontent.com/uBlcGpJ7VJE..."
     }
 ]
 </pre>
