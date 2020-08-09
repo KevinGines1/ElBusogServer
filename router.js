@@ -21,5 +21,6 @@ module.exports = (app) => {
 	app.delete('/api/remove/comment',     			        	controller.deleteComments) //
 	app.patch('/api/profile/update',     			        	controller.updateAccountInfo) // 
 	app.patch('/api/editFoodPlace',     			        	controller.updateFoodPlace) //
-	app.get('/api/photos/:foodPlaceID',						controller.getFoodPlacePhotos)
+	app.get('/api/photos/:foodPlaceID',					     	controller.getFoodPlacePhotos) //
+	app.post('/api/addPhoto',				   				    controller.addFoodPlacePhoto) //
 }

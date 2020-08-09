@@ -463,7 +463,7 @@ accType: string (should only be either "Customer" or "Business_owner"; <strong>I
 <p class="req">
 	<pre>
 (
-foodPlaceID : int (Food_place_id of the food place)
+foodPlaceID : int (Food_place_id of the food place),
 newName: string,
 newLocation: string, (should only be: "within UPLB", "Grove", "Raymundo", "Demarces", You can place multiple in one string e.g. "Raymundo, Demarces")
 newPrice: string ("<60", "60-100", ">100"),
@@ -515,6 +515,7 @@ comment: string (yung comment mismo)
 </p>
 		</div>
 	</div>
+
 	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
 		<div class="endpointLink">
@@ -560,6 +561,7 @@ EXAMPLE: (if you click the link on the header)
 		</div>
 	</div>
 	<!----------------------------------------------------------------------------------------------------------------->
+	
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">GET: /api/photos/:foodPlaceID</p>
@@ -594,6 +596,35 @@ EXAMPLE: (if you click the link on the header)
 </p>
 		</div>
 	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/addPhoto</p>
+			<p class="endPointNotes"> Make sure that the photo will be displayed when placed as src for img!</p>
+			<p href="https://ancient-garden-70007.herokuapp.com/api/photos/11" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/addPhoto</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req">
+<pre>
+	(
+		foodPlaceID : int (Food_place_id of food place),
+		foodPlacePhoto : string (link/path to the img; singe photo only!)
+	)
+</pre>				
+
+			</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+<pre>		
+	{
+        "msg" : "Successfully added photo!"
+	}
+</pre>
+</p>
+		</div>
+	</div>
+
 	<!----------------------------------------------------------------------------------------------------------------->
 	
 </body>

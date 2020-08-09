@@ -468,6 +468,27 @@ module.exports.getFoodPlacePhotos = (req,res) =>{
 	})
 }
 
+module.exports.addFoodPlacePhoto = (req,res) =>{
+	// add a single path for a specific food place, make sure that this can be displayed when placed in the src of an img
+
+	//get food place id
+	const foodPlaceID = Number (req.body.foodPlaceID)
+	const photoPath = req.body.foodPlacePhoto
+
+	//create query
+	const addPhotoToDBQuery = `INSERT INTO FOOD_PLACE_PICTURES(Food_place_id, Picture) VALUES (${foodPlaceID} , "${photoPath}")`
+
+	database.query(addPhotoToDBQuery, (err, result)=>{
+		if(err){
+			console.log(err)
+			throw new Error("ADD PHOTOS TO DB ERR: ", err)
+		}else{
+			// console.log(result)
+			res.status(200).json({msg: "Successfully added photo!"})
+		}
+	})
+}
+
 module.exports.showAllUsers = (req, res) => { // dummy function, not useful for actual app
 	//create query
 	const getAllUsersQuery = `SELECT * FROM USER`
