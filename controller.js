@@ -365,7 +365,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 		username : req.body.newUsername,
 		email : req.body.newEmail, 
 		password : req.body.newPassword,
-		picture : req.body.newPicturePath,
+		picture : req.body.newPicturePath === "null" ? null : req.body.newPicturePath,
 		accType : req.body.accType === "Business_owner" ? "Business_owner" : "Customer"
 	}
 
