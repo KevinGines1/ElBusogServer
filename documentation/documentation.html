@@ -109,6 +109,7 @@
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/addFoodPlace</p>
 			<p class="endPointNotes">This should only be used when a user with a Business_owner account will add their own food place</p>
+			<p class="endPointNotes"><strong>UPDATED [AUGUST 10 9:11 PM] Now returns the id of the foodplace</strong></p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/addFoodPlace</p>
 		</div>
 		<div class="reqresContainer">
@@ -132,7 +133,7 @@ owner: string (username of place owner)
 <p class="res">
 	<pre>					
 {
- "msg": "Succesfully added new food place!"
+ "Food_place_id" : int
 }
 	</pre>
 </p>
