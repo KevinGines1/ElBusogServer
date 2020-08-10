@@ -83,9 +83,18 @@ module.exports.addFoodPlace = (req, res) => { // this function should only be ca
 	database.query(addFoodPlaceQuery, async(err, result)=>{
 		if(err){
 			console.log("DATABASE ADD FOOD PLACE ERR: ", err)
+			throw new Error("DATABASE ADD FOOD PLACE ERR: (OUTER)", err)
 		}else{
 			// console.log(result)
-			res.status(200).json({msg: "Successfully added new food place!"})
+			database.query(`SELECT Food_place_id FROM FOOD_PLACE WHERE Food_place_name='${foodPlaceInfo.name}'`, (err, result1)=>{
+				if(err){
+					console.log("DATABASE ADD FOOD PLACE ERR: ", err)
+					throw new Error("DATABASE ADD FOOD PLACE ERR: (OUTER)", err)
+				}else{
+					console.log(result1)
+					res.status(200).json(result1)
+				}
+			})
 		}
 	})
 }
