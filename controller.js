@@ -400,7 +400,9 @@ module.exports.updateAccountInfo = async (req,res) =>{
 						// console.log(comparePWToHash)
 						if(comparePWToHash){ // password unchanged
 							// console.log("updated but not the password")
-							database.query(`UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`, (err, result)=>{
+
+							const updateUserNoPWQuery = updateInfo.picture === null ? `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}` : `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`
+							database.query(updateUserNoPWQuery, (err, result)=>{
 								if(err){
 									console.log("UPDATE USER W/O PW ERROR IN DB: ", err)
 									throw new Error("ZEIT ERROR: ", err)
@@ -413,7 +415,8 @@ module.exports.updateAccountInfo = async (req,res) =>{
 							//encrypt new password
 							let userPW = await bcrypt.hash(updateInfo.password, 8)
 							// console.log("new PW: ", userPW)
-							database.query(`UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`, (err, result)=>{
+							const updateUserWPWQuery = updateInfo.picture === null ? `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}` : `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`
+							database.query(updateUserWPWQuery, (err, result)=>{
 								if(err) {
 									console.log("UPDATE USER WITH PW ERROR IN DB: ", err)
 									throw new Error("ZEIT ERROR2: ", err)
