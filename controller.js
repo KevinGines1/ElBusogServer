@@ -328,6 +328,25 @@ module.exports.deleteAccountCustomer = (req,res) =>{	//Delete commentsAndRatings
 	})
 }
 
+module.exports.deleteFoodPlacePhoto = (req,res) =>{ // one photo at a time
+	//input
+	const foodPlaceID = Number (req.body.foodPlaceID)
+	const foodPlacePhoto = req.body.foodPlacePhoto
+
+	//create query
+	const deletePictureQuery = `DELETE FROM FOOD_PLACE_PICTURES WHERE Food_place_id=${foodPlaceID} AND Picture="${foodPlacePhoto}"`
+	//execute query
+	database.query(deletePictureQuery,(err, result)=>{
+		if(err){
+			console.log("DELETE PHOTO FROM DB ERR: ", err)
+			throw new Error("DELETE PHOTO FROM DB ERR: ", err)
+		}else{
+			console.log(result)
+			res.status(200).json({msg: "Successfully removed photo from database!"})
+		}
+	})
+}
+
 module.exports.deleteBusinessOwner = (req,res) =>{		//Works with delete cascade
 	//input
 	// const foodPlaceId = req.body.foodPlaceId
