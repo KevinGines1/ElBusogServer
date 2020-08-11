@@ -630,19 +630,21 @@ EXAMPLE: (if you click the link on the header)
 	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
 		<div class="endpointLink">
-			<p class="endPoint">DELETE: /api/remove/photo/:foodPhotoInfo</p>
+			<p class="endPoint">DELETE: /api/remove/photo/:foodPlaceID</p>
 			<p class="endPointNotes"> One photo at a time pls.</p>
-			<p class="endPointNotes"> [FIRST UPLOAD AUGUST 10 11:39 PM]</p>
-			<p href="https://ancient-garden-70007.herokuapp.com/api/remove/photo" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/remove/photo</p>
+			<p class="endPointNotes"> [UPDATED AUGUST 11 6:15 PM FOOD PLACE ID IS PLACED IN THE URL WHILE FOOD PLACE PHOTO IS IN THE BODY]</p>
+			<p href="https://ancient-garden-70007.herokuapp.com/api/remove/photo" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/remove/photo/3</p>
 		</div>
 		<div class="reqresContainer">
 			<p class="Param_Ret_Header">Parameter:</p>
 			<p class="req">
+			:foodPlaceID (int, Food_place_id of the user)
 <pre>		
+
 	foodPhotoInfo : {
-        "foodPlaceID" : int (Food_place_id of the food place),
         "foodPlacePhoto" : string (link for the photo, ONE ONLY!)
 	}
+
 </pre>
 			</p>
 			<p class="Param_Ret_Header">Return values: </p>
