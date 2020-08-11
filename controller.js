@@ -341,7 +341,7 @@ module.exports.deleteFoodPlacePhoto = (req,res) =>{ // one photo at a time
 			console.log("DELETE PHOTO FROM DB ERR: ", err)
 			throw new Error("DELETE PHOTO FROM DB ERR: ", err)
 		}else{
-			console.log("SUCCESSFUL DELETION: ", req.params.foodPlaceID, " + ", req.body.foodPlacePhoto)
+			console.log("SUCCESSFUL DELETION: ", req.params.foodPlaceID, " + ", req.body)
 			res.status(200).json({msg: "Successfully removed photo from database!"})
 		}
 	})
