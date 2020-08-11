@@ -330,8 +330,8 @@ module.exports.deleteAccountCustomer = (req,res) =>{	//Delete commentsAndRatings
 
 module.exports.deleteFoodPlacePhoto = (req,res) =>{ // one photo at a time
 	//input
-	const foodPlaceID = Number (req.body.foodPlaceID)
-	const foodPlacePhoto = req.body.foodPlacePhoto
+	const foodPlaceID = Number (req.params.foodPlaceID)
+	const foodPlacePhoto = req.params.foodPlacePhoto
 
 	//create query
 	const deletePictureQuery = `DELETE FROM FOOD_PLACE_PICTURES WHERE Food_place_id=${foodPlaceID} AND Picture="${foodPlacePhoto}"`
