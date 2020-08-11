@@ -334,14 +334,14 @@ module.exports.deleteFoodPlacePhoto = (req,res) =>{ // one photo at a time
 	const foodPlacePhoto = req.params.foodPlacePhoto
 
 	//create query
-	const deletePictureQuery = `DELETE FROM FOOD_PLACE_PICTURES WHERE Food_place_id=${foodPlaceID} AND Picture="${foodPlacePhoto}"`
+	const deletePictureQuery = `DELETE FROM FOOD_PLACE_PICTURES WHERE (Food_place_id=${foodPlaceID} AND Picture="${foodPlacePhoto}")`
 	//execute query
 	database.query(deletePictureQuery,(err, result)=>{
 		if(err){
 			console.log("DELETE PHOTO FROM DB ERR: ", err)
 			throw new Error("DELETE PHOTO FROM DB ERR: ", err)
 		}else{
-			console.log(result)
+			console.log("SUCCESSFUL DELETION: ", result)
 			res.status(200).json({msg: "Successfully removed photo from database!"})
 		}
 	})
