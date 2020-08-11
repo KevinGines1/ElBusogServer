@@ -334,6 +334,7 @@ module.exports.deleteFoodPlacePhoto = (req,res) =>{ // one photo at a time
 	const foodPlacePhoto = req.params.foodPlacePhoto
 
 	console.log("REVERT: ", foodPlaceID, foodPlacePhoto)
+	throw new Error ("REVERT: ", foodPlaceID, foodPlacePhoto)
 	// //create query
 	// const deletePictureQuery = `DELETE FROM FOOD_PLACE_PICTURES WHERE (Food_place_id=${foodPlaceID} AND Picture="${foodPlacePhoto}")`
 	// //execute query
