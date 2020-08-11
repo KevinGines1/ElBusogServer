@@ -23,5 +23,5 @@ module.exports = (app) => {
 	app.patch('/api/editFoodPlace',     			        	controller.updateFoodPlace) //
 	app.get('/api/photos/:foodPlaceID',					     	controller.getFoodPlacePhotos) //
 	app.post('/api/addPhoto',				   				    controller.addFoodPlacePhoto) //
-	app.delete('/api/remove/photo/:foodPlaceID/:foodPlacePhoto',controller.deleteFoodPlacePhoto) //
+	app.delete('/api/remove/photo/?:foodPlaceID&:foodPlacePhoto',controller.deleteFoodPlacePhoto) //
 }
