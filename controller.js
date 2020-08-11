@@ -334,7 +334,10 @@ module.exports.deleteFoodPlacePhoto = (req,res) =>{ // one photo at a time
 	// const foodPlaceID = Number (req.params.foodPhotoInfo.foodPlaceID)
 	// const foodPlacePhoto = req.params.foodPlacePhoto
 	// const foodPlacePhoto = req.params.foodPhotoInfo.foodPlacePhoto
+	
+	console.log("WHAAAAAT ", req.params.foodPhotoInfo)
 	throw new Error(req.params.foodPhotoInfo.foodPlaceID)
+
 
 	// //create query
 	// const deletePictureQuery = `DELETE FROM FOOD_PLACE_PICTURES WHERE (Food_place_id=${foodPlaceID} AND Picture="${foodPlacePhoto}")`
