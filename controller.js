@@ -335,7 +335,7 @@ module.exports.deleteFoodPlacePhoto = (req,res) =>{ // one photo at a time
 	// const foodPlacePhoto = req.params.foodPlacePhoto
 	// const foodPlacePhoto = req.params.foodPhotoInfo.foodPlacePhoto
 	
-	console.log("WHAAAAAT ", req.params.foodPhotoInfo)
+	console.log("WHAAAAAT ", req.params.foodPhotoInfo.foodPlaceID)
 	throw new Error(req.params.foodPhotoInfo.foodPlaceID)
 
 
