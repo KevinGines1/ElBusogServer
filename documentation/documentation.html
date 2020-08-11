@@ -630,7 +630,7 @@ EXAMPLE: (if you click the link on the header)
 	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
 		<div class="endpointLink">
-			<p class="endPoint">DELETE: /api/remove/photo</p>
+			<p class="endPoint">DELETE: /api/remove/photo/:foodPlaceID&:foodPlacePhoto</p>
 			<p class="endPointNotes"> One photo at a time pls.</p>
 			<p class="endPointNotes"> [FIRST UPLOAD AUGUST 10 11:39 PM]</p>
 			<p href="https://ancient-garden-70007.herokuapp.com/api/remove/photo" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/remove/photo</p>
@@ -638,13 +638,10 @@ EXAMPLE: (if you click the link on the header)
 		<div class="reqresContainer">
 			<p class="Param_Ret_Header">Parameter:</p>
 			<p class="req">
-<pre>
-	(
-		foodPlaceID : int (Food_place_id of food place),
-		foodPlacePhoto : string (link/path to the img; singe photo only!)
-	)
-</pre>				
-
+				:foodPlaceID : int (Food_place_id of food place)
+			</p>
+			<p class="req">
+				:foodPlacePhoto : string (link/path to the img; singe photo only!)
 			</p>
 			<p class="Param_Ret_Header">Return values: </p>
 <p class="res">
