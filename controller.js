@@ -331,22 +331,23 @@ module.exports.deleteAccountCustomer = (req,res) =>{	//Delete commentsAndRatings
 module.exports.deleteFoodPlacePhoto = (req,res) =>{ // one photo at a time
 	//input
 	// const foodPlaceID = Number (req.params.foodPlaceID)
-	const foodPlaceID = Number (req.params.foodPhotoInfo.foodPlaceID)
+	// const foodPlaceID = Number (req.params.foodPhotoInfo.foodPlaceID)
 	// const foodPlacePhoto = req.params.foodPlacePhoto
-	const foodPlacePhoto = req.params.foodPhotoInfo.foodPlacePhoto
+	// const foodPlacePhoto = req.params.foodPhotoInfo.foodPlacePhoto
+	throw new Error(req.params.foodPhotoInfo)
 
-	//create query
-	const deletePictureQuery = `DELETE FROM FOOD_PLACE_PICTURES WHERE (Food_place_id=${foodPlaceID} AND Picture="${foodPlacePhoto}")`
-	//execute query
-	database.query(deletePictureQuery,(err, result)=>{
-		if(err){
-			console.log("DELETE PHOTO FROM DB ERR: ", err)
-			throw new Error("DELETE PHOTO FROM DB ERR: ", err)
-		}else{
-			console.log("SUCCESSFUL DELETION: ", result)
-			res.status(200).json({msg: "Successfully removed photo from database!"})
-		}
-	})
+	// //create query
+	// const deletePictureQuery = `DELETE FROM FOOD_PLACE_PICTURES WHERE (Food_place_id=${foodPlaceID} AND Picture="${foodPlacePhoto}")`
+	// //execute query
+	// database.query(deletePictureQuery,(err, result)=>{
+	// 	if(err){
+	// 		console.log("DELETE PHOTO FROM DB ERR: ", err)
+	// 		throw new Error("DELETE PHOTO FROM DB ERR: ", err)
+	// 	}else{
+	// 		console.log("SUCCESSFUL DELETION: ", result)
+	// 		res.status(200).json({msg: "Successfully removed photo from database!"})
+	// 	}
+	// })
 }
 
 module.exports.deleteBusinessOwner = (req,res) =>{		//Works with delete cascade
