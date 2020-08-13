@@ -24,5 +24,5 @@ module.exports = (app) => {
 	app.get('/api/photos/:foodPlaceID',					     	controller.getFoodPlacePhotos) //
 	app.post('/api/addPhoto',				   				    controller.addFoodPlacePhoto) //
 	app.post('/api/remove/photo/:foodPlaceID',				    controller.deleteFoodPlacePhoto) //
-	app.get('/api/locate/:foodPlaceID', 						controller.getJeepneyStop)
+	app.get('/api/locate/:latitude&:longitude&:foodPlaceID', 						controller.getJeepneyStop)
 }

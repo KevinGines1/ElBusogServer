@@ -601,7 +601,9 @@ module.exports.getJeepneyStop = (req, res) => {
 	var jeepneyStopDistance = null      //the distance of the closest jeepney stop
 
 	//inputs
-	const foodPlaceID = req.body.foodPlaceID
+	const foodPlaceID = req.params.foodPlaceID
+	const userLat = req.params.latitude
+	const userLng = req.params.longitude
 
 	var foodPlaceLngRad = null
 	var foodPlaceLatRad = null
@@ -674,7 +676,9 @@ module.exports.getJeepneyStop = (req, res) => {
 
 	const returnMsg = `Take the ${jeep_route} jeep and stop at ${jeepneyStopName}. It has a distance of ${jeepneyStopDistance} from the food place.`
 	
-	res.status(200).json({returnMsg})
+	res.status(200).json({
+		"msg": returnMsg
+	})
 
 }
 
