@@ -614,13 +614,13 @@ module.exports.getJeepneyStop = (req, res) => {
 		if(err){
 			console.log(err)			//ID might be wrong
 		}else{
-			foodPlaceLngRad = radians(${result.Longitude})
-			foodPlaceLatRad = radians(${result.Latitude})
+			foodPlaceLngRad = radians(Number(result[0].Longitude))
+			foodPlaceLatRad = radians(Number(result[0].Latitude))
 		}
 	})
 	jeepneyStops.forEach((stop)=>{
-		lngRad = radians(${stop.stop_lng})
-		latRad = radians(${stop.stop_lat})
+		lngRad = radians(stop.stop_lng)
+		latRad = radians(stop.stop_lat)
 	
 
 		diffLng = lngRad - foodPlaceLngRad
@@ -657,8 +657,8 @@ module.exports.getJeepneyStop = (req, res) => {
 	]
 
 	whichJeep.forEach((jeep)=>{
-		longRad = radians(${jeep.pos_lng})
-		latiRad = radians(${jeep.pos_lat})
+		longRad = radians(jeep.pos_lng)
+		latiRad = radians(jeep.pos_lat)
 
 		diffLong = longRad - foodPlaceLngRad
 		diffLati = latiRad - foodPlaceLatRad
