@@ -672,9 +672,9 @@ module.exports.getJeepneyStop = (req, res) => {
 	    	jeepDistance = distance
 	    }
 	})
-	console.log("Take the "+jeep_route+" jeep")
+	console.log("Take the "+routeName+" jeep")
 
-	const returnMsg = `Take the ${jeep_route} jeep and stop at ${jeepneyStopName}. It has a distance of ${jeepneyStopDistance} from the food place.`
+	const returnMsg = `Take the ${routeName} jeep and stop at ${jeepneyStopName}. It has a distance of ${jeepneyStopDistance} from the food place.`
 	
 	res.status(200).json({
 		"msg": returnMsg
