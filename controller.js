@@ -784,6 +784,9 @@ module.exports.getJeepneyStop = (req, res) => {
 
 	var foodPlaceLngRad = null
 	var foodPlaceLatRad = null
+	var foodPlaceLat1 = null
+	var foodPlaceLng1 = null
+
 	//query here
 	const getFoodPlaceQuery = `SELECT * FROM FOOD_PLACE WHERE Food_place_id = ${foodPlaceID}`
 	//execute query
@@ -793,6 +796,9 @@ module.exports.getJeepneyStop = (req, res) => {
 		}else{
 			foodPlaceLng = Number(result[0].Longitude)
 			foodPlaceLat = Number(result[0].Latitude)
+
+			foodPlaceLat1 = foodPlaceLat
+			foodPlaceLng1 = foodPlaceLng
 
 			foodPlaceLngRad = radians(foodPlaceLng)
 			foodPlaceLatRad = radians(foodPlaceLat)
@@ -873,8 +879,8 @@ module.exports.getJeepneyStop = (req, res) => {
 	Ax = 14.167455			//UPLB Gate-Origin
 	Ay = 121.243357
 
-	Bx = foodPlaceLat
-	By = foodPlaceLng
+	Bx = foodPlaceLat1
+	By = foodPlaceLng1
 
 	Cx = userLat
 	Cy = userLng
