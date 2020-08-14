@@ -698,6 +698,9 @@ module.exports.showAllUsers = (req, res) => { // dummy function, not useful for 
 }
 
 module.exports.getJeepneyStop = (req, res) => {
+	radians = (degrees) => {
+	    	return(degrees * Math.PI / 180);
+	}
 	haversineFxn = (sampleLngRad, sampleLatRad) =>{
 		// database of jeepney stops
 		jeepneyStops = [
@@ -768,10 +771,6 @@ module.exports.getJeepneyStop = (req, res) => {
 		        'stop_lng': 121.242573
 		    }
 		]
-
-		radians = (degrees) => {
-	    	return(degrees * Math.PI / 180);
-		}
 
 		const r = 6373.0                    //this is the radius of the Earth and will be used for distance calculation
 		var jeepneyName = null          //the name of the closest jeepney stop
