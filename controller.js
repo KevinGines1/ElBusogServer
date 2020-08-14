@@ -610,7 +610,7 @@ module.exports.getJeepneyStop = (req, res) => {
 	//query here
 	const getFoodPlaceQuery = `SELECT * FROM FOOD_PLACE WHERE Food_place_id = ${foodPlaceID}`
 	//execute query
-	database.query(foodPlaceQuery, (err,result)=>{
+	database.query(getFoodPlaceQuery, (err,result)=>{
 		if(err){
 			console.log(err)			//ID might be wrong
 		}else{
