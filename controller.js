@@ -668,7 +668,7 @@ module.exports.getJeepneyStop = (req, res) => {
 	    distance = r * c * 1000;        //distance in meters
 
 	    if(jeepDistance===null || jeepDistance>distance){
-	    	routeName = whichJeep.jeep_route
+	    	routeName = jeep.jeep_route
 	    	jeepDistance = distance
 	    }
 	})
