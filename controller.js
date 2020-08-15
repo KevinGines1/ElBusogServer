@@ -805,7 +805,6 @@ module.exports.getJeepneyStop = (req, res) => {
 			foodPlaceLatRad = radians(foodPlaceLat)
 		}
 	})
-	console.log("IM HERE")
 	jeepneyStops.forEach((stop)=>{
 		lngRad = radians(stop.stop_lng)
 		latRad = radians(stop.stop_lat)
@@ -874,7 +873,7 @@ module.exports.getJeepneyStop = (req, res) => {
 		}else if(crossProduct < 0){
 			return "Kaliwa"
 		}else{
-			return ("Straight ahead I guess")			//is on the line, so maybe straight ahead or something
+			return ("Kanan/Kaliwa")			//is on the line, so maybe straight ahead or something
 		}
 	}
 
