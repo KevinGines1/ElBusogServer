@@ -698,6 +698,7 @@ module.exports.showAllUsers = (req, res) => { // dummy function, not useful for 
 }
 
 module.exports.getJeepneyStop = (req, res) => {
+
 	// database of jeepney stops
 	jeepneyStops = [
 	    {
@@ -804,6 +805,7 @@ module.exports.getJeepneyStop = (req, res) => {
 			foodPlaceLatRad = radians(foodPlaceLat)
 		}
 	})
+	console.log("IM HERE")
 	jeepneyStops.forEach((stop)=>{
 		lngRad = radians(stop.stop_lng)
 		latRad = radians(stop.stop_lat)
@@ -893,7 +895,7 @@ module.exports.getJeepneyStop = (req, res) => {
 		'rideStop' 	: jeepneyStopName
 	}
 
-	return(routeObject)
+	res.status(200).json(routeObject)
 
 }
 
