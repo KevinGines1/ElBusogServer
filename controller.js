@@ -21,7 +21,7 @@ module.exports.getAllFoodPlaces = (req,res) => { // get all food places in the d
 		if(err){
 			console.log("DATABASE GET ALL FOOD QUERY ERR: ", err)
 		}else{
-			console.log(result)
+			// console.log(result)
 			// return res.status(200).json(result)
 			res.status(200).json(result)
 		}
@@ -133,7 +133,7 @@ module.exports.getComments = (req,res) => { // get comments  and ratings from a 
 		if(err){
 			console.log("GET COMMENTS DB ERR: ", err)
 		}else{
-			console.log(result)
+			// console.log(result)
 			res.status(200).json(result)
 		}
 	})
@@ -177,10 +177,19 @@ module.exports.checkUsername = (req, res) => { // invoke this function when a us
 		}else{
 			if(result.length === 0){
 				console.log("I AM HERE BRUH IN TRUE")
-				res.status(200).json({"infoValid": true, "msg":"Username is available!"})
+				// res.status(200).json({"infoValid": true, "msg":"Username is available!"})
+				let returnMe = {
+					infoValid : true,
+					msg: "Username is available!"
+				}
+				res.status(200).json(returnMe)
 			}else{
 				console.log("I AM HERE BRUH IN FALSE")
-				res.status(200).json({"infoValid": false, "msg":"Username is already taken!"})
+				let returnMe = {
+					infoValid : false,
+					msg: "Username is already taken!"
+				}		
+				res.status(200).json(returnMe)
 			}
 		}
 	})
@@ -495,7 +504,7 @@ module.exports.showAllUsers = (req, res) => { // dummy function, not useful for 
 		if(err){
 			console.log("DATABASE GET ALL USERS QUERY ERR: ", err)
 		}else{
-			console.log(result)
+			// console.log(result)
 			// return res.status(200).json(result)
 			res.status(200).json(result)
 		}
