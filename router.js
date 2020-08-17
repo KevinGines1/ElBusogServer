@@ -4,8 +4,6 @@ module.exports = (app) => {
 	app.get('/',											    controller.docs) //
 	app.get('/api/getAllFoodPlaces', 							controller.getAllFoodPlaces)//
 	app.get('/api/getAllUsers', 								controller.showAllUsers) 
-	// app.get('/api/getFoodPlace/priceRange/:priceRange', 		controller.getFoodPlaceWithinRange) //
-	// app.get('/api/getFoodPlace/foodType/:foodType', 			controller.getFoodPlaceWithFoodType) //
 	app.get('/api/getOwnFoodPlace/:userID', 					controller.getOwnFoodPlace) //
 	app.post('/api/addFoodPlace', 								controller.addFoodPlace) //
 	app.delete('/api/removeFoodPlace/:foodPlaceId', 			controller.deleteFoodPlace) //

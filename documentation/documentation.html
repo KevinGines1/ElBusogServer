@@ -42,69 +42,6 @@
 		</div>
 	</div>
 	<!----------------------------------------------------------------------------------------------------------------->
-<!-- 	<div class="endpointContainer">
-		<div class="endpointLink">
-			<p class="endPoint">GET: /api/getFoodPlace/priceRange/:priceRange</p>
-			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/<60" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/<60</a>
-			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/60-100" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/60-100</a>
-			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/>100" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/priceRange/>100</a>
-		</div>
-		<div class="reqresContainer">
-			<p class="Param_Ret_Header">Parameter:</p>
-			<p class="req"><b>:priceRange</b> (should only be: "<60", "60-100", ">100")</p>
-			<p class="Param_Ret_Header">Return values: </p>
-<p class="res">
-	<pre>					
-{
- "Food_place_id":int,
- "Food_place_name":string,
- "Price_range":string ("<60", "60-100", ">100"),
- "Description":string,
- "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
- "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL),
- "Days_open": string (e.g. "Monday-Saturday"),
- "User_id":int (User_id of owner; if NULL, no business owner account owns it)
-}
-	</pre>
-</p>
-		</div>
-	</div> -->
-	<!----------------------------------------------------------------------------------------------------------------->
-<!-- 	<div class="endpointContainer">
-		<div class="endpointLink">
-			<p class="endPoint">GET: /api/getFoodPlace/foodType/:foodType</p>
-			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Meat" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Meat
-			</a>
-			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Vegetable" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Vegetable
-			</a>
-			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Snacks" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Snacks
-			</a>
-			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Ice Cream" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Ice Cream
-			</a>
-			<a href="https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Seafood" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/getFoodPlace/foodType/Seafood
-			</a>
-		</div>
-		<div class="reqresContainer">
-			<p class="Param_Ret_Header">Parameter:</p>
-			<p class="req"><b>:foodType</b> ("Meal", "Vegetable", "Ice Cream", "Snacks", "Seafood")</p>
-			<p class="Param_Ret_Header">Return values: </p>
-<p class="res">
-	<pre>					
-{
- "Food_place_id":int,
- "Food_place_name":string,
- "Price_range":string ("<60", "60-100", ">100"),
- "Description":string,
- "Opening_time":int (in 24-hr format; if open for 24 hours, value is NULL),
- "Closing_time":int (in 24 hr format; if open for 24 hours, value is NULL),
- "Days_open": string (e.g. "Monday-Saturday"),
- "User_id":int (User_id of owner; if NULL, no business owner account owns it)
-}
-	</pre>
-</p>
-		</div>
-	</div> -->
-	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/addFoodPlace</p>
@@ -652,6 +589,32 @@ EXAMPLE: (if you click the link on the header)
 <pre>		
 	{
         "msg" : "Successfully removed photo from database!"
+	}
+</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+	<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">GET: /api/locate/:latitude&:longitude&:foodPlaceID</p>
+			<p class="endPointNotes"> [POSTED AUGUST 17 7:40]</p>
+			<p href="https://ancient-garden-70007.herokuapp.com/api/remove/photo" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/locate/123&321&3</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req">
+			:latitude (decimal, can be up to 6 floating point numbers)
+			:longitude (decimal, can be up to 6 floating point numbers)
+			:foodPlaceID (int, Food_place_id of the user)
+			</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+<pre>		
+	{
+        "route" : "Kanan" or "Kaliwa",
+        "rideStart" : (string, jeepney stop),
+        "rideStop" : (string, jeepney stop),
 	}
 </pre>
 </p>
