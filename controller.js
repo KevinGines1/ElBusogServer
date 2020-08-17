@@ -171,7 +171,7 @@ module.exports.checkUsername = (req, res) => { // invoke this function when a us
 	//create query 
 	const checkUsernameQuery = `SELECT Username from USER WHERE Username = '${username}'`
 	//execute query
-	database.query(checkUsernameQuery, (err, result)=>{
+	database.query(checkUsernameQuery, async (err, result)=>{
 		if(err){
 			console.log("CHECK USERNAME IN DB ERR: ", err)
 		}else{
@@ -469,7 +469,7 @@ module.exports.getFoodPlacePhotos = (req,res) =>{
 			console.log("GET PHOTOS FROM DB ERR: ", err)
 			throw new Error("GET PHOTOS ERROR IN DB: ", err)
 		}else{
-			console.log(result)
+			// console.log(result)
 			res.status(200).json(result)
 		}
 	})
