@@ -175,10 +175,11 @@ module.exports.checkUsername = (req, res) => { // invoke this function when a us
 		if(err){
 			console.log("CHECK USERNAME IN DB ERR: ", err)
 		}else{
-			console.log("I AM HERE BRUH")
 			if(result.length === 0){
+				console.log("I AM HERE BRUH IN TRUE")
 				res.status(200).json({infoValid: true, msg:"Username is available!"})
 			}else{
+				console.log("I AM HERE BRUH IN FALSE")
 				res.status(200).json({infoValid: false, msg:"Username is already taken!"})
 			}
 		}
