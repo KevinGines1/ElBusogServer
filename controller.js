@@ -179,15 +179,13 @@ module.exports.checkUsername = (req, res) => { // invoke this function when a us
 				console.log("I AM HERE BRUH IN TRUE")
 				// res.status(200).json({"infoValid": true, "msg":"Username is available!"})
 				let returnMe = {
-					infoValid : true,
-					msg: "Username is available!"
+					infoValid : true
 				}
 				res.status(200).send(returnMe)
 			}else{
 				console.log("I AM HERE BRUH IN FALSE")
 				let returnMe = {
-					infoValid : false,
-					msg: "Username is already taken!"
+					infoValid : false
 				}		
 				res.status(200).send(returnMe)
 			}
