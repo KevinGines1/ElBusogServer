@@ -539,97 +539,21 @@ module.exports.showAllUsers = (req, res) => { // dummy function, not useful for 
 }
 
 module.exports.getJeepneyStop = (req, res) => {
+	var jeepneyStopName = null
+	var jeepneyStartName = null
 
-	// database of jeepney stops
-	jeepneyStops = [
-	    {
-	        'stop_ID': 1,
-	        'stop_name': "UPLB Gate",
-	        'stop_lat': 14.167677,
-	        'stop_lng': 121.243023
-	    },
-	    {
-	        'stop_ID': 2,
-	        'stop_name': "Raymundo Gate",
-	        'stop_lat': 14.167805,
-	        'stop_lng': 121.241542
-	    },
-	    {
-	        'stop_ID': 3,
-	        'stop_name': "Women's Dorm",
-	        'stop_lat': 14.161289,
-	        'stop_lng': 121.240902
-	    },
-	    {
-	        'stop_ID': 4,
-	        'stop_name': "Animal Sciences Building",
-	        'stop_lat': 14.159885,
-	        'stop_lng': 121.243542
-	    },
-	    {
-	        'stop_ID': 5,
-	        'stop_name': "F.O. Santos",
-	        'stop_lat': 14.169886,
-	        'stop_lng': 121.244062
-	    },
-	    {
-	        'stop_ID': 6,
-	        'stop_name': "Demarses",
-	        'stop_lat': 14.169015,
-	        'stop_lng': 121.244294
-	    },
-	    {
-	        'stop_ID': 7,
-	        'stop_name': "Grove (Near Jollibee)",
-	        'stop_lat': 14.168446,
-	        'stop_lng': 121.244008
-	    },
-	    {
-	        'stop_ID': 8,
-	        'stop_name': "Landbank",
-	        'stop_lat': 14.167043,
-	        'stop_lng': 121.243690
-	    },
-	    {
-	        'stop_ID': 9,
-	        'stop_name': "Math Building",
-	        'stop_lat': 14.165094,
-	        'stop_lng': 121.244564
-	    },
-	    {
-	        'stop_ID': 10,
-	        'stop_name': "DL Umali",
-	        'stop_lat': 14.163731,
-	        'stop_lng': 121.239964
-	    },
-	    {
-	        'stop_ID': 11,
-	        'stop_name': "Baker Hall",
-	        'stop_lat': 14.161323,
-	        'stop_lng': 121.242573
-	    }
-	]
-
-	//Haversine stuff
-	radians = (degrees) => {
-    	return(degrees * Math.PI / 180);
-	}
-
-	const r = 6373.0                    //this is the radius of the Earth and will be used for distance calculation
-	var jeepneyStopName = null          //the name of the closest jeepney stop
-	var jeepneyStopDistance = null      //the distance of the closest jeepney stop
-
-	//inputs
 	const foodPlaceID = req.params.foodPlaceID
 	const userLat = req.params.latitude
 	const userLng = req.params.longitude
 
-	var foodPlaceLngRad = null
-	var foodPlaceLatRad = null
-	var foodPlaceLat1 = null
-	var foodPlaceLng1 = null
+	radians = (degrees) => {
+    	return(degrees * Math.PI / 180);
+	}
 
-	//query here
+	var userLngRad = radians(userLng)
+	var userLatRad = radians(userLat)
+
+		//query here
 	const getFoodPlaceQuery = `SELECT * FROM FOOD_PLACE WHERE Food_place_id = ${foodPlaceID}`
 	//execute query
 	database.query(getFoodPlaceQuery, (err,result)=>{
@@ -639,95 +563,147 @@ module.exports.getJeepneyStop = (req, res) => {
 			foodPlaceLng = Number(result[0].Longitude)
 			foodPlaceLat = Number(result[0].Latitude)
 
-			foodPlaceLat1 = foodPlaceLat
-			foodPlaceLng1 = foodPlaceLng
+			// foodPlaceLat1 = foodPlaceLat
+			// foodPlaceLng1 = foodPlaceLng
 
 			foodPlaceLngRad = radians(foodPlaceLng)
 			foodPlaceLatRad = radians(foodPlaceLat)
 		}
-	})
 
-	jeepneyStops.forEach((stop)=>{
-		lngRad = radians(stop.stop_lng)
-		latRad = radians(stop.stop_lat)
-	
+		//Jeep Start and Stop
+		haversineFxn = (sampleLngRad, sampleLatRad) =>{
+			// database of jeepney stops
+			jeepneyStops = [
+			    {
+			        'stop_ID': 1,
+			        'stop_name': "UPLB Gate",
+			        'stop_lat': 14.167677,
+			        'stop_lng': 121.243023
+			    },
+			    {
+			        'stop_ID': 2,
+			        'stop_name': "Raymundo Gate",
+			        'stop_lat': 14.167805,
+			        'stop_lng': 121.241542
+			    },
+			    {
+			        'stop_ID': 3,
+			        'stop_name': "Women's Dorm",
+			        'stop_lat': 14.161289,
+			        'stop_lng': 121.240902
+			    },
+			    {
+			        'stop_ID': 4,
+			        'stop_name': "Animal Sciences Building",
+			        'stop_lat': 14.159885,
+			        'stop_lng': 121.243542
+			    },
+			    {
+			        'stop_ID': 5,
+			        'stop_name': "F.O. Santos",
+			        'stop_lat': 14.169886,
+			        'stop_lng': 121.244062
+			    },
+			    {
+			        'stop_ID': 6,
+			        'stop_name': "Demarses",
+			        'stop_lat': 14.169015,
+			        'stop_lng': 121.244294
+			    },
+			    {
+			        'stop_ID': 7,
+			        'stop_name': "Grove (Near Jollibee)",
+			        'stop_lat': 14.168446,
+			        'stop_lng': 121.244008
+			    },
+			    {
+			        'stop_ID': 8,
+			        'stop_name': "Landbank",
+			        'stop_lat': 14.167043,
+			        'stop_lng': 121.243690
+			    },
+			    {
+			        'stop_ID': 9,
+			        'stop_name': "Math Building",
+			        'stop_lat': 14.165094,
+			        'stop_lng': 121.244564
+			    },
+			    {
+			        'stop_ID': 10,
+			        'stop_name': "DL Umali",
+			        'stop_lat': 14.163731,
+			        'stop_lng': 121.239964
+			    },
+			    {
+			        'stop_ID': 11,
+			        'stop_name': "Baker Hall",
+			        'stop_lat': 14.161323,
+			        'stop_lng': 121.242573
+			    }
+			]
 
-		diffLng = lngRad - foodPlaceLngRad
-		diffLat = latRad - foodPlaceLatRad
+			const r = 6373.0                    //this is the radius of the Earth and will be used for distance calculation
+			var jeepneyName = null          //the name of the closest jeepney stop
+			var jeepneyDistance = null      //the distance of the closest jeepney stop
 
-		a = Math.sin(diffLat / 2)**2 + (Math.cos(foodPlaceLatRad) * Math.cos(latRad) * Math.sin(diffLng / 2)**2);
-		c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 -a));
-	    distance = r * c * 1000;        //distance in meters
+			jeepneyStops.forEach((current)=>{
+				lngRad = radians(current.stop_lng)
+				latRad = radians(current.stop_lat)
 
-	    // compare the distance with the closest recorded distance
-	    if(jeepneyStopDistance === null || jeepneyStopDistance > distance) {
-	        jeepneyStopName = stop.stop_name
-	        jeepneyStopDistance = distance;
-	    }
-	})
+				diffLng = lngRad - sampleLngRad
+				diffLat = latRad - sampleLatRad
 
-	//RideStart Check
-	userLngRad = radians(userLng)				//depends if it needs to be changed to int; Number(x)
-	userLatRad = radians(userLat)
+				a = Math.sin(diffLat / 2)**2 + Math.cos(sampleLatRad) * Math.cos(latRad) * Math.sin(diffLng / 2)**2;
+				c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 -a));
+			    distance = r * c * 1000;        //distance in meters
 
-	var jeepneyStartName = null       
-	var jeepneyStartDistance = null      
-
-	jeepneyStops.forEach((stop)=>{
-		lngRad = radians(stop.stop_lng)
-		latRad = radians(stop.stop_lat)
-	
-
-		diffLng = lngRad - userLngRad
-		diffLat = latRad - userLatRad
-
-		a = Math.sin(diffLat / 2)**2 + Math.cos(userLatRad) * Math.cos(latRad) * Math.sin(diffLng / 2)**2;
-		c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 -a));
-	    distance = r * c * 1000;        //distance in meters
-
-	    // compare the distance with the closest recorded distance
-	    if(jeepneyStartDistance === null || jeepneyStartDistance > distance) {
-	        jeepneyStartName = stop.stop_name
-	        jeepneyStartDistance = distance;
-	    }
-	})
-	//RouteCheck
-	direction= (Ax, Ay, Bx, By, Cx, Cy)=>{
-		//Makes point A the origin
-
-		dBx= Bx-Ax
-		dBy= By-Ay			
-
-		dCx= Cx-Ax
-		dCy= Cy-Ay
-
-		crossProduct= dBx*dCy-dBy*dCx
-		if(crossProduct > 0){
-			return "Kanan"
-		}else if(crossProduct < 0){
-			return "Kaliwa"
-		}else{
-			return ("Kanan/Kaliwa")			//is on the line, so maybe straight ahead or something
+			    // compare the distance with the closest recorded distance
+			    if(jeepneyDistance === null || jeepneyDistance > distance) {
+			        jeepneyName = current.stop_name
+			        jeepneyDistance = distance;
+			    }
+			})
+			return(jeepneyName)
 		}
-	}
+		jeepStopName = haversineFxn(foodPlaceLngRad, foodPlaceLatRad)
+		jeepStartName = haversineFxn(userLngRad, userLatRad)
+		//RouteCheck
+		direction= (Ax, Ay, Bx, By, Cx, Cy)=>{
+			//Makes point A the origin
 
-	Ax = 14.167455			//UPLB Gate-Origin
-	Ay = 121.243357
+			dBx= Bx-Ax
+			dBy= By-Ay			
 
-	Bx = foodPlaceLat1
-	By = foodPlaceLng1
+			dCx= Cx-Ax
+			dCy= Cy-Ay
 
-	Cx = userLat
-	Cy = userLng
+			crossProduct= dBx*dCy-dBy*dCx
+			if(crossProduct > 0){
+				return "Kanan"
+			}else if(crossProduct < 0){
+				return "Kaliwa"
+			}else{
+				return ("Straight ahead I guess")			//is on the line, so maybe straight ahead or something
+			}
+		}
 
-	route = direction(Ax,Ay,Bx,By,Cx,Cy)
+		Ax = 14.167455			//UPLB Gate-Origin
+		Ay = 121.243357
 
-	routeObject = {
-		'route' : route,
-		'rideStart' : jeepneyStartName,
-		'rideStop' 	: jeepneyStopName
-	}
+		Bx = foodPlaceLat
+		By = foodPlaceLng
 
-	res.status(200).json(routeObject)
+		Cx = userLat
+		Cy = userLng
+
+		route = direction(Ax,Ay,Bx,By,Cx,Cy)
+
+		routeObject = {
+			'route' : route,
+			'rideStart' : jeepStartName,
+			'rideStop' 	: jeepStopName
+		}
+		res.status(200).json(routeObject)
+	})
 }
 
