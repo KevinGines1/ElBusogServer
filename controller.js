@@ -295,12 +295,12 @@ module.exports.verifyToken = (req, res) => {
 		const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
 		// console.log(decoded)
 		const userInfo = {
-			id: decoded.id,
-			name : decoded.name,
-			email: decoded.email,
-			username: decoded.username,
-			picture: decoded.picture,
-			user_type: decoded.user_type
+			User_id: decoded.id,
+			Name : decoded.name,
+			Email: decoded.email,
+			Username: decoded.username,
+			Picture: decoded.picture,
+			User_type: decoded.user_type
 		}
 		res.status(200).json({msg:"Successfully verified token!", userInfo})
 	}catch(error){
