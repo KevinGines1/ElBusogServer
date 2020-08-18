@@ -148,17 +148,18 @@ module.exports.deleteComments = (req,res) =>{			//child table is fine to delete 
 		comment : req.body.comment,
 	}
 	//query here
-	const removeCommentsAndRatingQuery = 'DELETE FROM RATES_COMMENTS WHERE User_id = ? AND Food_place_id = ? AND Rating = ? AND Comment = ?'
+	const removeCommentsAndRatingQuery = `DELETE FROM RATES_COMMENTS WHERE User_id = ${commentsInfo.userID} AND Food_place_id = ${commentsInfo.foodPlaceID} AND Rating = ${commentsInfo.rating} AND Comment = ${commentsInfo.comment}`
 	//executes here
-	database.query(removeCommentsAndRatingQuery, [commentsInfo.userID, commentsInfo.foodPlaceID, commentsInfo.rating,
-commentsInfo.comment], function(error, results, fields){
-		if(results.length != 0){
+	database.query(removeCommentsAndRatingQuery, (error, results)=>{
+		if(error){
+			//failed to delete
+			// res.send("Please check the inputs")
+			// console.log("Did not catch one/more of the primary keys")
+			console.log("DELETE COMMENT IN DB ERROR: ", error)
+			throw new Error("DELETE COMMEINT IN DB ERROR: ", error)
+		}else{
 			//successful delete
 			res.status(200).json({msg: "Successfully deleted an item!"})
-		}else{
-			//failed to delete
-			res.send("Please check the inputs")
-			console.log("Did not catch one/more of the primary keys")
 		}
 	})
 }
@@ -700,6 +701,5 @@ module.exports.getJeepneyStop = (req, res) => {
 	}
 
 	res.status(200).json(routeObject)
-
 }
 
