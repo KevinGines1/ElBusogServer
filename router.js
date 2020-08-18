@@ -7,7 +7,7 @@ module.exports = (app) => {
 	app.get('/api/getOwnFoodPlace/:userID', 					controller.getOwnFoodPlace) //
 	app.post('/api/addFoodPlace', 								controller.addFoodPlace) //
 	app.delete('/api/removeFoodPlace/:foodPlaceId', 			controller.deleteFoodPlace) //
-	app.get('/api/checkUsername/:username', 					controller.checkUsername) //
+	app.post('/api/checkUsername', 								controller.checkUsername) //
 	app.post('/api/checkEmail', 								controller.checkEmail) //
 	app.post('/api/register', 									controller.createAccount) //
 	app.get('/api/profile/:username', 							controller.getProfile) //

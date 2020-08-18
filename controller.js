@@ -166,7 +166,7 @@ commentsInfo.comment], function(error, results, fields){
 
 module.exports.checkUsername = (req, res) => { // invoke this function when a user is inputing username when creating an account
 	// get username from request
-	const username = req.params.username
+	const username = req.body.username
 
 	//create query 
 	const checkUsernameQuery = `SELECT Username from USER WHERE Username = '${username}'`
