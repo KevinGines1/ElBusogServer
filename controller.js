@@ -265,8 +265,13 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 					//logged in
 					// const payload = results[0].User_id
 					const token = jwt.sign({
+						id : results[0].User_id,
+						name : results[0].Name,
 						email : results[0].Email,
-						username : results[0].Username
+						username : results[0].Username,
+						picture : results[0].Picture,
+						user_type : results[0].User_type,
+
 					}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRY})
 					res.status(200).json({ authorized: true, msg: "Successfully logged in!", token})
 				}
@@ -283,6 +288,26 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 	}
 }
 
+module.exports.verifyToken = (req, res) => {
+	const token = req.body.token
+
+	try{
+		const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+		// console.log(decoded)
+		const userInfo = {
+			id: decoded.id,
+			name : decoded.name,
+			email: decoded.email,
+			username: decoded.username,
+			picture: decoded.picture,
+			user_type: decoded.user_type
+		}
+		res.status(200).json({msg:"Successfully verified token!", userInfo})
+	}catch(error){
+		res.status(401)
+		throw new Error(error)
+	}
+}
 
 module.exports.deleteAccountCustomer = (req,res) =>{	//Delete commentsAndRatings first before user 
 	//input

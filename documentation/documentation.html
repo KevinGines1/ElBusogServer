@@ -257,6 +257,7 @@ email: string (up to 25 chars),
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/login</p>
 			<p class="endPointNotes">Please make sure that the input fields are not empty!</p>
+			<p class="endPointNotes">[UPDATED AUG 18 A token will be returned]</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/login</p>
 		</div>
 		<div class="reqresContainer">
@@ -281,7 +282,8 @@ password: string
 	<pre>					
 {
  "authorized" : false,
- "msg" : "Please check the Username and/or Password
+ "msg" : "Please check the Username and/or Password,
+ "token": token, please store this in the localStorage
 }
 	</pre>
 
@@ -599,7 +601,7 @@ EXAMPLE: (if you click the link on the header)
 		<div class="endpointLink">
 			<p class="endPoint">GET: /api/locate/:latitude&:longitude&:foodPlaceID</p>
 			<p class="endPointNotes"> [POSTED AUGUST 17 7:40]</p>
-			<p href="https://ancient-garden-70007.herokuapp.com/api/remove/photo" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/locate/123&321&3</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/locate/123&321&3</p>
 		</div>
 		<div class="reqresContainer">
 			<p class="Param_Ret_Header">Parameter:</p>
@@ -616,6 +618,40 @@ EXAMPLE: (if you click the link on the header)
         "rideStart" : (string, jeepney stop),
         "rideStop" : (string, jeepney stop),
 	}
+</pre>
+</p>
+		</div>
+	</div>
+	<!----------------------------------------------------------------------------------------------------------------->
+		<div class="endpointContainer">
+		<div class="endpointLink">
+			<p class="endPoint">POST: /api/verifyToken</p>
+			<p class="endPointNotes"> [POSTED AUGUST 18 8:40]</p>
+			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/verifyToken</p>
+		</div>
+		<div class="reqresContainer">
+			<p class="Param_Ret_Header">Parameter:</p>
+			<p class="req">
+<pre>
+{
+	token: (the token sent to you when you logged in; should be stored in local storage)
+}	
+</pre>
+			</p>
+			<p class="Param_Ret_Header">Return values: </p>
+<p class="res">
+<pre>		
+{
+    "msg" : "Successfully verified token!",
+    "userInfo" : {
+    	id: int,
+    	name : string, 
+    	email : string,
+    	username : string, 
+    	picture : string,
+    	user_type: string, Either "Customer" or "Business_owner"
+	}
+}
 </pre>
 </p>
 		</div>
