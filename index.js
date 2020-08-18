@@ -5,6 +5,7 @@ const router        = require('./router')
 const database      = require('./database')
 const cors          = require('cors')
 const cookieParser  = require('cookie-parser')
+const jwt			= require('jsonwebtoken')
 
 
 // dotenv.config({path:'./.env'}) // set .env file path

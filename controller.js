@@ -262,10 +262,13 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 			if(results.length !== 0){
 				let comparePWToHash = await bcrypt.compare(checkPassword, results[0].Password)
 				if(comparePWToHash){
-				// if(checkPassword === results[0].Password){
 					//logged in
-					// req.session.loggedin = true
-					res.status(200).json({ authorized: true, msg: "Successfully logged in!"})
+					// const payload = results[0].User_id
+					const token = jwt.sign({
+						email : results[0].Email,
+						username : results[0].Username
+					}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRY})
+					res.status(200).json({ authorized: true, msg: "Successfully logged in!", token})
 				}
 			}else{
 				//incorrect username or password
