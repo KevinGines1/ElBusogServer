@@ -166,7 +166,7 @@ commentsInfo.comment], function(error, results, fields){
 
 module.exports.checkUsername = (req, res) => { // invoke this function when a user is inputing username when creating an account
 	// get username from request
-	const username = req.body.username
+	const username = req.params.username
 
 	//create query 
 	const checkUsernameQuery = `SELECT Username from USER WHERE Username = '${username}'`
@@ -617,6 +617,7 @@ module.exports.getJeepneyStop = (req, res) => {
 			foodPlaceLatRad = radians(foodPlaceLat)
 		}
 	})
+
 	jeepneyStops.forEach((stop)=>{
 		lngRad = radians(stop.stop_lng)
 		latRad = radians(stop.stop_lat)
@@ -625,7 +626,7 @@ module.exports.getJeepneyStop = (req, res) => {
 		diffLng = lngRad - foodPlaceLngRad
 		diffLat = latRad - foodPlaceLatRad
 
-		a = Math.sin(diffLat / 2)**2 + Math.cos(foodPlaceLatRad) * Math.cos(latRad) * Math.sin(diffLng / 2)**2;
+		a = Math.sin(diffLat / 2)**2 + (Math.cos(foodPlaceLatRad) * Math.cos(latRad) * Math.sin(diffLng / 2)**2);
 		c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 -a));
 	    distance = r * c * 1000;        //distance in meters
 
@@ -635,14 +636,6 @@ module.exports.getJeepneyStop = (req, res) => {
 	        jeepneyStopDistance = distance;
 	    }
 	})
-
-	// console.log("Distance " + jeepneyStopDistance + " At " + jeepneyStopName)
-
-	// const returnMsg = `Take the ${routeName} jeep and stop at ${jeepneyStopName}. It has a distance of ${jeepneyStopDistance} from the food place.`
-	
-	// res.status(200).json({
-	// 	"msg": returnMsg
-	// })
 
 	//RideStart Check
 	userLngRad = radians(userLng)				//depends if it needs to be changed to int; Number(x)
