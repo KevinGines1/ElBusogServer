@@ -573,13 +573,14 @@ module.exports.checkPassword = (req, res) => {
 module.exports.loginUser = (req,res) =>{ // login user to website
 	//user input 
 	const checkName = req.body.username
-	const checkPassword = req.body.password
-	if(checkName && checkPassword){ // check if username and password exists
+	const password = req.body.password
+	if(checkName && password){ // check if username and password exists
 		const getUserQuery = `SELECT * FROM USER WHERE Username="${checkName}"`
 		database.query(getUserQuery, async(error, results)=>{
 				console.log("RESULTS: ", results)
 			if(results.length !== 0){
-				let comparePWToHash = await bcrypt.compare(checkPassword, results[0].Password)
+				let comparePWToHash = await bcrypt.compare(password, results[0].Password)
+				console.log("HERE I AM")
 				if(comparePWToHash){
 					//logged in
 					// const payload = results[0].User_id
@@ -593,7 +594,10 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 						user_type : results[0].User_type,
 
 					}, password, {expiresIn: "90d"})
+					console.log("HERE I AM AGAIN")
 					return res.status(200).json({ authorized: true, msg: "Successfully logged in!", token})
+				}else{
+					return res.status(200).json({ authorized: false, msg: "Login failed"})
 				}
 			}else{
 				//incorrect username or password
