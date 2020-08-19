@@ -692,7 +692,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 	}
 
 	//check in database if username is unique
-	database.query(`SELECT * FROM USER WHERE Username = ${updateInfo.username}`, (error, results)=>{
+	database.query(`SELECT * FROM USER WHERE Username = "${updateInfo.username}"`, (error, results)=>{
 		if(results.length!==0 && results[0].User_id!==userID){
 			//return
 			console.log("Username not unique")
