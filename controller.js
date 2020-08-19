@@ -575,9 +575,9 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 	const checkName = req.body.username
 	const checkPassword = req.body.password
 	if(checkName && checkPassword){ // check if username and password exists
-		// database.query('SELECT * FROM USER WHERE Username = ? AND Password = ?', [checkName, checkPassword], function(error, results, fields){
-		database.query(`SELECT * FROM USER WHERE Username = ${checkName}`, async(error, results)=>{
-				console.log("RESULTS: ",results)
+		const getUserQuery = `SELECT * FROM USER WHERE Username="${checkName}"`
+		database.query(getUserQuery, async(error, results)=>{
+				console.log("RESULTS: ", results)
 			if(results.length !== 0){
 				let comparePWToHash = await bcrypt.compare(checkPassword, results[0].Password)
 				if(comparePWToHash){
