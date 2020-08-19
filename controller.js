@@ -557,13 +557,13 @@ module.exports.checkPassword = (req, res) => {
 			throw new Error("GET USER FROM DB IN CHECK PW ERR: ", err)
 		}else{
 			if(result.length===0){ // user does not exist
-				res.status(404).json({msg: "User not found"})
+				res.status(200).json({msg: "User not found"})
 			}else{
 				let comparePWToHash = await bcrypt.compare(password, result[0].Password)
 				if(comparePWToHash){
 					res.status(200).json({msg: true}) // password is same
 				}else{
-					res.status(401).json({msg:false}) // password is wrong
+					res.status(200).json({msg:false}) // password is wrong
 				}
 			}
 		}
