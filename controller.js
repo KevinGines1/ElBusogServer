@@ -699,7 +699,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 			return res.status(200).json({msg: "Please use another Username"})
 		}else{
 			// console.log("Username is unique")
-			database.query(`SELECT * FROM USER WHERE Email = ${updateInfo.email}`, async (error, results)=>{
+			database.query(`SELECT * FROM USER WHERE Email = "${updateInfo.email}"`, async (error, results)=>{
 				if(results.length!==0  && results[0].User_id!==userID){
 					//return
 					console.log("Email not unique")
