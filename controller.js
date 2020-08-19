@@ -576,13 +576,14 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 	const checkPassword = req.body.password
 	if(checkName && checkPassword){ // check if username and password exists
 		// database.query('SELECT * FROM USER WHERE Username = ? AND Password = ?', [checkName, checkPassword], function(error, results, fields){
-		database.query('SELECT * FROM USER WHERE Username = ?', [checkName], async(error, results)=>{
+		database.query(`SELECT * FROM USER WHERE Username = ${checkName}`, async(error, results)=>{
 				console.log("RESULTS: ",results)
 			if(results.length !== 0){
 				let comparePWToHash = await bcrypt.compare(checkPassword, results[0].Password)
 				if(comparePWToHash){
 					//logged in
 					// const payload = results[0].User_id
+					const password = supersecretpassword
 					const token = jwt.sign({
 						id : results[0].User_id,
 						name : results[0].Name,
@@ -591,19 +592,19 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 						picture : results[0].Picture,
 						user_type : results[0].User_type,
 
-					}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRY})
-					res.status(200).json({ authorized: true, msg: "Successfully logged in!", token})
+					}, password, {expiresIn: "90d"})
+					return res.status(200).json({ authorized: true, msg: "Successfully logged in!", token})
 				}
 			}else{
 				//incorrect username or password
-				res.send({authorized: false, msg:"Please check the Username and/or Password"})
+				return res.send({authorized: false, msg:"Please check the Username and/or Password"})
 				console.log("Not in the database")
 			}
 		})
 	}else{
 		//no inputs
 		console.log("Caught no username or password")
-		res.send("Please enter the username and password in the fields")
+		return res.send("Please enter the username and password in the fields")
 	}
 }
 
