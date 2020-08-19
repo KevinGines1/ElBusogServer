@@ -580,11 +580,9 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 				console.log("RESULTS: ", results)
 			if(results.length !== 0){
 				let comparePWToHash = await bcrypt.compare(password, results[0].Password)
-				console.log("HERE I AM")
 				if(comparePWToHash){
 					//logged in
-					// const payload = results[0].User_id
-					const password = supersecretpassword
+					const password = "supersecretpassword"
 					const token = jwt.sign({
 						id : results[0].User_id,
 						name : results[0].Name,
@@ -594,7 +592,6 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 						user_type : results[0].User_type,
 
 					}, password, {expiresIn: "90d"})
-					console.log("HERE I AM AGAIN")
 					return res.status(200).json({ authorized: true, msg: "Successfully logged in!", token})
 				}else{
 					return res.status(200).json({ authorized: false, msg: "Login failed"})
