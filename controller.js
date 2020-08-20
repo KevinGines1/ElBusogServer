@@ -624,12 +624,13 @@ module.exports.updateAccountInfo = async (req,res) =>{
 		accType 	: req.body.accType // strictly should only be "Business_owner" or "Customer", case sensitive
 	}
 
+	console.log("CONTENTS OF THE BODY: ", req.body)
 	//check in database if username is unique
 	database.query(`SELECT * FROM USER WHERE Username = "${updateInfo.username}"`, (error, results)=>{
 		console.log("UPDATE PROFILE GET USER FR USERNAME RESULTS: ", results)
 		if(results.length!==0 && results[0].User_id!==userID){ // if query returns a result that is not the same with userID, username is not unique
-			console.log("ID IN RESULTS: ", typeof results[0].User_id)
-			console.log("ID IN BODY: ", typeof userID)
+			console.log("ID IN RESULTS: ", results[0].User_id)
+			console.log("ID IN BODY: ", userID)
 			console.log("Username not unique")
 			return res.status(200).json({msg: "Please use another Username"})
 		}else{
