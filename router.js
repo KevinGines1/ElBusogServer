@@ -6,7 +6,7 @@ module.exports = (app) => {
 	app.get('/api/getAllUsers', 								controller.showAllUsers) 
 	app.get('/api/getOwnFoodPlace/:userID', 					controller.getOwnFoodPlace) //
 	app.get('/api/comments/:foodPlaceId', 						controller.getComments) //
-	app.get('/api/profile/:username', 							controller.getProfile) //
+	app.get('/api/profile/:userID', 							controller.getProfile) //
 	app.get('/api/photos/:foodPlaceID',					     	controller.getFoodPlacePhotos) //
 	app.get('/api/locate/:latitude&:longitude&:foodPlaceID', 	controller.getJeepneyStop) //
 	app.post('/api/addFoodPlace', 								controller.addFoodPlace) //

@@ -70,10 +70,10 @@ module.exports.getComments = (req,res) => { // get comments  and ratings from a 
 
 module.exports.getProfile = (req, res) => { // get the information of a user; invoke this only when user is logged in
 	// get username from parameters
-	const username = req.params.username
+	const userID = req.params.userID
 
 	// create query
-	const getUserInfo = `SELECT User_id, Name, Username, Email, Picture, User_type FROM USER WHERE Username='${username}'`
+	const getUserInfo = `SELECT User_id, Name, Username, Email, Picture, User_type FROM USER WHERE User_id=${userID}`
 	// execute query
 	database.query(getUserInfo, (err, result)=>{
 		if(err){
@@ -583,13 +583,7 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 				if(comparePWToHash){
 					//logged in
 					const token = jwt.sign({
-						id : results[0].User_id,
-						name : results[0].Name,
-						email : results[0].Email,
-						username : results[0].Username,
-						picture : results[0].Picture,
-						user_type : results[0].User_type,
-
+						id : results[0].User_id
 					}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRY})
 					return res.status(200).json({ authorized: true, msg: "Successfully logged in!", token})
 				}else{
@@ -629,8 +623,6 @@ module.exports.updateAccountInfo = async (req,res) =>{
 	database.query(`SELECT * FROM USER WHERE Username = "${updateInfo.username}"`, (error, results)=>{
 		console.log("UPDATE PROFILE GET USER FR USERNAME RESULTS: ", results)
 		if(results.length!==0 && results[0].User_id!==userID){ // if query returns a result that is not the same with userID, username is not unique
-			console.log("ID IN RESULTS: ", results[0].User_id)
-			console.log("ID IN BODY: ", userID)
 			console.log("Username not unique")
 			return res.status(200).json({msg: "Please use another Username"})
 		}else{
@@ -712,15 +704,8 @@ module.exports.verifyToken = (req, res) => { // verify token using jwt; does not
 	try{
 		const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
 		// console.log(decoded)
-		const userInfo = {
-			User_id: decoded.id,
-			Name : decoded.name,
-			Email: decoded.email,
-			Username: decoded.username,
-			Picture: decoded.picture,
-			User_type: decoded.user_type
-		}
-		res.status(200).json({msg:"Successfully verified token!", userInfo})
+		const User_id = decoded.id
+		res.status(200).json({msg:"Successfully verified token!", User_id})
 	}catch(error){
 		res.status(401)
 		throw new Error(error)

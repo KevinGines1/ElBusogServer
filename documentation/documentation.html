@@ -231,12 +231,13 @@ email: string (up to 25 chars),
 	<!----------------------------------------------------------------------------------------------------------------->
 	<div class="endpointContainer">
 		<div class="endpointLink">
-			<p class="endPoint">GET: /api/profile/:username</p>
+			<p class="endPoint">GET: /api/profile/:userID</p>
+			<p class="endPointNotes">[UPDATED AUG 20 11:51 PM Parameter changed to USER ID from username]</p>
 			<a href="https://ancient-garden-70007.herokuapp.com/api/profile/AkoIkawZoren" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/profile/AkoIkawZoren</a>
 		</div>
 		<div class="reqresContainer">
 			<p class="Param_Ret_Header">Parameter:</p>
-<p class="req">:username (string, username of user) </p>
+<p class="req">:userID (int, id of the user) </p>
 			<p class="Param_Ret_Header">Return values: </p>
 <p class="res">
 	<pre>					
@@ -257,7 +258,7 @@ email: string (up to 25 chars),
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/login</p>
 			<p class="endPointNotes">Please make sure that the input fields are not empty!</p>
-			<p class="endPointNotes">[UPDATED AUG 18 A token will be returned]</p>
+			<p class="endPointNotes">[UPDATED AUG 20 11:45 PM A token will be returned, contents of the token have been modified. Check verifyToken</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/login</p>
 		</div>
 		<div class="reqresContainer">
@@ -626,7 +627,7 @@ EXAMPLE: (if you click the link on the header)
 		<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/verifyToken</p>
-			<p class="endPointNotes"> [POSTED AUGUST 18 8:40]</p>
+			<p class="endPointNotes"> [POSTED AUGUST 20 11:49]</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/verifyToken</p>
 		</div>
 		<div class="reqresContainer">
@@ -643,14 +644,7 @@ EXAMPLE: (if you click the link on the header)
 <pre>		
 {
     "msg" : "Successfully verified token!",
-    "userInfo" : {
-    	User_id: int,
-    	Name : string, 
-    	Email : string,
-    	Username : string, 
-    	Picture : string,
-    	User_type: string, Either "Customer" or "Business_owner"
-	}
+	"User_id": int (ID of the user),
 }
 </pre>
 </p>
