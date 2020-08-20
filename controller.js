@@ -611,73 +611,6 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 
 // *************************************************** UPDATE IN DB ***************************************************
 
-// module.exports.updateAccountInfo = async (req,res) =>{
-// 	//input 
-// 	const userID = Number (req.body.userID)
-// 	const username = req.body.origUsername
-// 	const updateInfo = {		//Send current/old values if no changes
-// 		name : req.body.newName,
-// 		username : req.body.newUsername,
-// 		email : req.body.newEmail, 
-// 		password : req.body.newPassword,
-// 		picture : req.body.newPicturePath === "null" ? null : req.body.newPicturePath,
-// 		accType : req.body.accType
-// 	}
-
-// 	//check in database if username is unique
-// 	database.query(`SELECT * FROM USER WHERE Username = ${updateInfo.username}`, (error, results)=>{
-// 		if(results.length!==0 && results[0].User_id!==userID){
-// 			//return
-// 			console.log("Username not unique")
-// 			return res.json({msg: "Please use another Username"})
-// 		}else{
-// 			// console.log("Username is unique")
-// 			database.query(`SELECT * FROM USER WHERE Email = ${updateInfo.email}`, async (error, results)=>{
-// 				if(results.length!==0  && results[0].User_id!==userID){
-// 					//return
-// 					console.log("Email not unique")
-// 					return res.json({msg: "Please use another email "})
-// 				}else{
-// 					//username and email is unique
-// 					// check the password first if its new 
-// 					database.query(`SELECT Password from USER WHERE User_id=${userID}`, async (err, results)=>{
-// 						let comparePWToHash = await bcrypt.compare(updateInfo.password, results[0].Password)
-// 						// console.log(comparePWToHash)
-// 						if(comparePWToHash){ // password unchanged
-// 							// console.log("updated but not the password")
-
-// 							const updateUserNoPWQuery = updateInfo.picture === null ? `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}` : `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`
-// 							database.query(updateUserNoPWQuery, (err, result)=>{
-// 								if(err){
-// 									console.log("UPDATE USER W/O PW ERROR IN DB: ", err)
-// 									throw new Error("ZEIT ERROR W/O PW: ", err)
-// 								}else{
-// 									console.log("successfully updated profile without password ")
-// 									return res.status(200).json({msg: "Successfully updated profile!"})
-// 								} 
-// 							})						
-// 						}else{ // new password
-// 							//encrypt new password
-// 							let userPW = await bcrypt.hash(updateInfo.password, 8)
-// 							// console.log("new PW: ", userPW)
-// 							const updateUserWPWQuery = updateInfo.picture === null ? `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}` : `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`
-// 							database.query(updateUserWPWQuery, (err, result)=>{
-// 								if(err) {
-// 									console.log("UPDATE USER WITH PW ERROR IN DB: ", err)
-// 									throw new Error("ZEIT ERROR WITH PW: ", err)
-// 								}else{
-// 									console.log("successfully updated profile and password")
-// 									return res.status(200).json({msg: "Successfully updated profile!"})
-// 								} 
-// 							})	
-// 						}
-// 					})
-// 				}
-// 			})
-// 		}
-// 	})
-// }
-
 module.exports.updateAccountInfo = async (req,res) =>{
 	//input 
 	const userID = Number (req.body.userID)
@@ -688,36 +621,35 @@ module.exports.updateAccountInfo = async (req,res) =>{
 		email 		: req.body.newEmail, 
 		password 	: req.body.newPassword,
 		picture 	: req.body.newPicturePath,
-		accType 	: req.body.accType
+		accType 	: req.body.accType // strictly should only be "Business_owner" or "Customer", case sensitive
 	}
-	console.log("PICTURE: ", updateInfo.picture)
+
 	//check in database if username is unique
 	database.query(`SELECT * FROM USER WHERE Username = "${updateInfo.username}"`, (error, results)=>{
-		if(results.length!==0 && results[0].User_id!==userID){
-			//return
+		if(results.length!==0 && results[0].User_id!==userID){ // if query returns a result that is not the same with userID, username is not unique
 			console.log("Username not unique")
 			return res.status(200).json({msg: "Please use another Username"})
 		}else{
 			// console.log("Username is unique")
 			database.query(`SELECT * FROM USER WHERE Email = "${updateInfo.email}"`, async (error, results)=>{
-				if(results.length!==0  && results[0].User_id!==userID){
+				if(results.length!==0  && results[0].User_id!==userID){ // same idea with the username
 					//return
 					console.log("Email not unique")
 					return res.status(200).json({msg: "Please use another email "})
 				}else{
 					//username and email is unique
-					let userPW = await bcrypt.hash(updateInfo.password, 8)
+					let userPW = await bcrypt.hash(updateInfo.password, 8) // re-hash password whether it's the old one or a new one
 					const updateUserWPWQuery = updateInfo.picture === "null" ? `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}` : `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`
+					// console.log(updateUserWPWQuery)
 					database.query(updateUserWPWQuery, (err, result)=>{
 						if(err) {
 							console.log("UPDATE USER WITH PW ERROR IN DB: ", err)
-							throw new Error("ZEIT ERROR WITH PW: ", err)
+							throw new Error("UPDATE USER PROFILE ERR IN DB: ", err)
 						}else{
-							console.log("successfully updated profile and password")
+							// console.log("successfully updated profile!")
 							return res.status(200).json({msg: "Successfully updated profile!"})
 						} 
 					})
-					console.log(updateUserWPWQuery)
 				}
 			})
 		}
