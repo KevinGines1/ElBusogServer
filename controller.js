@@ -683,14 +683,14 @@ module.exports.updateAccountInfo = async (req,res) =>{
 	const userID = Number (req.body.userID)
 	const username = req.body.origUsername
 	const updateInfo = {		//Send current/old values if no changes
-		name : req.body.newName,
-		username : req.body.newUsername,
-		email : req.body.newEmail, 
-		password : req.body.newPassword,
-		picture : req.body.newPicturePath === "null" ? null : req.body.newPicturePath,
-		accType : req.body.accType
+		name 		: req.body.newName,
+		username 	: req.body.newUsername,
+		email 		: req.body.newEmail, 
+		password 	: req.body.newPassword,
+		picture 	: req.body.newPicturePath,
+		accType 	: req.body.accType
 	}
-
+	console.log("PICTURE: ", updateInfo.picture)
 	//check in database if username is unique
 	database.query(`SELECT * FROM USER WHERE Username = "${updateInfo.username}"`, (error, results)=>{
 		if(results.length!==0 && results[0].User_id!==userID){
@@ -707,7 +707,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 				}else{
 					//username and email is unique
 					let userPW = await bcrypt.hash(updateInfo.password, 8)
-					const updateUserWPWQuery = updateInfo.picture === null ? `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}` : `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`
+					const updateUserWPWQuery = updateInfo.picture === "null" ? `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}` : `UPDATE USER SET Name="${updateInfo.name}", Username = "${updateInfo.username}", Email = "${updateInfo.email}", Password="${userPW}", Picture = "${updateInfo.picture}", User_type = "${updateInfo.accType}"  WHERE User_id = ${userID}`
 					database.query(updateUserWPWQuery, (err, result)=>{
 						if(err) {
 							console.log("UPDATE USER WITH PW ERROR IN DB: ", err)
@@ -717,6 +717,7 @@ module.exports.updateAccountInfo = async (req,res) =>{
 							return res.status(200).json({msg: "Successfully updated profile!"})
 						} 
 					})
+					console.log(updateUserWPWQuery)
 				}
 			})
 		}
