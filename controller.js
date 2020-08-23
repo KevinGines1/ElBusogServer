@@ -246,7 +246,7 @@ module.exports.getJeepneyStop = (req, res) => {
 			}else if(crossProduct < 0){
 				return "Kaliwa"
 			}else{
-				return ("Straight ahead I guess")			//is on the line, so maybe straight ahead or something
+				return ("Kanan/Kaliwa")			//is on the line, so maybe straight ahead or something
 			}
 		}
 
