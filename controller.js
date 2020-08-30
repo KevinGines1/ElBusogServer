@@ -283,30 +283,55 @@ module.exports.addFoodPlace = (req, res) => { // this function should only be ca
 		closeTime: req.body.closeTime, 
 		daysOpen : req.body.daysOpen,
 		foodTypes : req.body.foodTypes, // string
-		owner: req.body.owner // username of the owner
+		owner: req.body.owner, // username of the owner
+		latitude: req.body.latitude,
+		longitude : req.body.longitude
 	}
 
 	//create query
-	const addFoodPlaceQuery = `INSERT INTO FOOD_PLACE(Food_place_name, Location, Price_range, Description, Opening_time, Closing_time, Days_open, Food_types, User_id) VALUES ("${foodPlaceInfo.name}", "${foodPlaceInfo.location}","${foodPlaceInfo.priceRange}", "${foodPlaceInfo.description}", "${foodPlaceInfo.openTime}", "${foodPlaceInfo.closeTime}", "${foodPlaceInfo.daysOpen}", "${foodPlaceInfo.foodTypes}", (SELECT User_id from USER where Username="${foodPlaceInfo.owner}"))`
+	const addFoodPlaceQuery = `INSERT INTO FOOD_PLACE(Food_place_name, Location, Price_range, Description, Opening_time, Closing_time, Days_open, Food_types, Longitude, Latitude, User_id) VALUES ("${foodPlaceInfo.name}", "${foodPlaceInfo.location}","${foodPlaceInfo.priceRange}", "${foodPlaceInfo.description}", "${foodPlaceInfo.openTime}", "${foodPlaceInfo.closeTime}", "${foodPlaceInfo.daysOpen}", "${foodPlaceInfo.foodTypes}", ${foodPlaceInfo.longitude}, ${foodPlaceInfo.latitude}, (SELECT User_id from USER where Username="${foodPlaceInfo.owner}"))`
+
+	const addFoodPlaceQuery24H = `INSERT INTO FOOD_PLACE(Food_place_name, Location, Price_range, Description, Opening_time, Closing_time, Days_open, Food_types, Longitude, Latitude, User_id) VALUES ("${foodPlaceInfo.name}", "${foodPlaceInfo.location}","${foodPlaceInfo.priceRange}", "${foodPlaceInfo.description}", NULL, NULL, "${foodPlaceInfo.daysOpen}", "${foodPlaceInfo.foodTypes}", ${foodPlaceInfo.longitude}, ${foodPlaceInfo.latitude}, (SELECT User_id from USER where Username="${foodPlaceInfo.owner}"))`
 
 	//execute query
-	database.query(addFoodPlaceQuery, async(err, result)=>{
-		if(err){
-			console.log("DATABASE ADD FOOD PLACE ERR: ", err)
-			throw new Error("DATABASE ADD FOOD PLACE ERR: (OUTER)", err)
-		}else{
-			// console.log(result)
-			database.query(`SELECT Food_place_id FROM FOOD_PLACE WHERE Food_place_name="${foodPlaceInfo.name}"`, (err1, result1)=>{
-				if(err1){
-					console.log("DATABASE ADD FOOD PLACE ERR: ", err1)
-					throw new Error("DATABASE ADD FOOD PLACE ERR: (OUTER)", err1)
-				}else{
-					console.log(result1)
-					res.status(200).json(result1)
-				}
-			})
-		}
-	})
+
+	if(foodPlaceInfo.openTime === null || foodPlaceInfo.closeTime === null || foodPlaceInfo.closeTime === "null" || foodPlaceInfo.openTime === "null"){
+		database.query(addFoodPlaceQuery24H, async(err, result)=>{
+			if(err){
+				console.log("DATABASE ADD FOOD PLACE ERR: ", err)
+				throw new Error("DATABASE ADD FOOD PLACE ERR: (OUTER)", err)
+			}else{
+				// console.log(result)
+				database.query(`SELECT Food_place_id FROM FOOD_PLACE WHERE Food_place_name="${foodPlaceInfo.name}"`, (err1, result1)=>{
+					if(err1){
+						console.log("DATABASE ADD FOOD PLACE ERR: ", err1)
+						throw new Error("DATABASE ADD FOOD PLACE ERR: (OUTER)", err1)
+					}else{
+						console.log(result1)
+						res.status(200).json(result1)
+					}
+				})
+			}
+		})
+	}else{
+		database.query(addFoodPlaceQuery, async(err, result)=>{
+			if(err){
+				console.log("DATABASE ADD FOOD PLACE ERR: ", err)
+				throw new Error("DATABASE ADD FOOD PLACE ERR: (OUTER)", err)
+			}else{
+				// console.log(result)
+				database.query(`SELECT Food_place_id FROM FOOD_PLACE WHERE Food_place_name="${foodPlaceInfo.name}"`, (err1, result1)=>{
+					if(err1){
+						console.log("DATABASE ADD FOOD PLACE ERR: ", err1)
+						throw new Error("DATABASE ADD FOOD PLACE ERR: (OUTER)", err1)
+					}else{
+						console.log(result1)
+						res.status(200).json(result1)
+					}
+				})
+			}
+		})
+	}
 }
 
 module.exports.addFoodPlacePhoto = (req,res) =>{
@@ -664,22 +689,35 @@ module.exports.updateFoodPlace = async (req,res) =>{ // this should only be invo
 		closeTime : req.body.newClose, // NULL; 100-2400
 		daysOpen : req.body.newDays, // 0123456
 		foodTypes : req.body.newFoodTypes, // Meat, Vegetable, Seafood, Ice Cream, Snacks
-		// longitude : req.body.longitude,
-		// latitude : req.body.latitude
+		longitude : req.body.newLongitude,
+		latitude : req.body.newLatitude
 	}
 
 	//construct query
-	const editFoodPlaceQuery = `UPDATE FOOD_PLACE SET Food_place_name="${updateInfo.foodPlaceName}", Location="${updateInfo.location}", Price_range="${updateInfo.priceRange}", Description="${updateInfo.description}", Opening_time="${updateInfo.openTime}", Closing_time="${updateInfo.closeTime}", Days_open="${updateInfo.daysOpen}", Food_types="${updateInfo.foodTypes}" WHERE Food_place_id=${foodPlaceID}`
+	const editFoodPlaceQuery = `UPDATE FOOD_PLACE SET Food_place_name="${updateInfo.foodPlaceName}", Location="${updateInfo.location}", Price_range="${updateInfo.priceRange}", Description="${updateInfo.description}", Opening_time="${updateInfo.openTime}", Closing_time="${updateInfo.closeTime}", Days_open="${updateInfo.daysOpen}", Food_types="${updateInfo.foodTypes}", Longitude=${updateInfo.longitude}, Latitude=${updateInfo.latitude} WHERE Food_place_id=${foodPlaceID}`
 
+	const editFoodPlace24H = `UPDATE FOOD_PLACE SET Food_place_name="${updateInfo.foodPlaceName}", Location="${updateInfo.location}", Price_range="${updateInfo.priceRange}", Description="${updateInfo.description}", Opening_time=NULL, Closing_time=NULL, Days_open="${updateInfo.daysOpen}", Food_types="${updateInfo.foodTypes}", Longitude=${updateInfo.longitude}, Latitude=${updateInfo.latitude} WHERE Food_place_id=${foodPlaceID}`
 
-	database.query(editFoodPlaceQuery, (err,result)=>{
-		if(err){
-			console.log("EDIT FOOD PLACE ERR IN DB: ", err)
-		}else{
-			console.log("Updated food place! ")
-			res.status(200).json({msg: "Successfully updated food place!"})
-		}
-	})
+	if(updateInfo.openTime === null || updateInfo.closeTime === null || updateInfo.closeTime === "null" || updateInfo.openTime === "null"){
+		console.log("here! : ", typeof updateInfo.openTime, typeof updateInfo.closeTime, typeof null)
+		database.query(editFoodPlace24H, (err,result)=>{
+			if(err){
+				console.log("EDIT FOOD PLACE ERR 24H IN DB: ", err)
+			}else{
+				console.log("Updated food place! ")
+				res.status(200).json({msg: "Successfully updated food place!"})
+			}
+		})
+	}else{
+		database.query(editFoodPlaceQuery, (err,result)=>{
+			if(err){
+				console.log("EDIT FOOD PLACE ERR IN DB: ", err)
+			}else{
+				console.log("Updated food place! ")
+				res.status(200).json({msg: "Successfully updated food place!"})
+			}
+		})
+	}
 }
 
 // *************************************************** MISCELLANEOUS ***************************************************

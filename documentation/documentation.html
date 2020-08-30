@@ -46,7 +46,7 @@
 		<div class="endpointLink">
 			<p class="endPoint">POST: /api/addFoodPlace</p>
 			<p class="endPointNotes">This should only be used when a user with a Business_owner account will add their own food place</p>
-			<p class="endPointNotes"><strong>UPDATED [AUGUST 10 9:11 PM] Now returns the id of the foodplace</strong></p>
+			<p class="endPointNotes">[UPDATED AUG 30 2020 5:50 pm : ADDED LONGITUDE AND LATITUDE. REMOVED OWNER]]</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/addFoodPlace</p>
 		</div>
 		<div class="reqresContainer">
@@ -62,7 +62,9 @@ openTime: string in 24h format (e.g. "900"), place NULL if 24 hours open, VALID 
 closeTime: string in 24h format (e.g. "2100"), place NULL if 24 hours open VALID VALUES ARE FROM 100 TO 2400,
 daysOpen: string (e.g. "0123456" where 0=Sunday, 1=Monday, ..., 6=Saturday),
 foodTypes: string (e.g. "Meat" or "Meat, Vegetable, Snacks, Ice Cream"; <b>Place all in a SINGLE string separated by commas</b>)
-owner: string (username of place owner)
+owner: string (username of place owner),
+latitude : number (up to 4 digit-whole number and 6 decimal places only. example : 1234.456789)
+longitude : number (up to 4 digit-whole number and 6 decimal places only. example : 1234.456789)
 )
 	</pre>
 </p>
@@ -398,6 +400,7 @@ accType: string (should only be either "Customer" or "Business_owner"; <strong>I
 		<div class="endpointLink">
 			<p class="endPoint">PATCH: /api/editFoodPlace</p>
 			<p class="endPointNotes">This should only be used when a user with a Business_owner account will update their own food place</p>
+			<p class="endPointNotes">[UPDATED AUG 30 2020 6:11 pm : ADDED LONGITUDE AND LATITUDE. REMOVED OWNER]</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/editFoodPlace</p>
 		</div>
 		<div class="reqresContainer">
@@ -414,7 +417,10 @@ newOpen: string in 24h format (e.g. "900"), place NULL if 24 hours open, VALID V
 newClose: string in 24h format (e.g. "2100"), place NULL if 24 hours open VALID VALUES ARE FROM 100 TO 2400,
 newDays: string (e.g. "0123456" where 0=Sunday, 1=Monday, ..., 6=Saturday),
 newFoodTypes: string (e.g. "Meat" or "Meat, Vegetable, Snacks, Ice Cream"; <b>Place all in a SINGLE string separated by commas</b>)
-owner: string (username of place owner)
+<!-- owner: string (username of place owner) -->
+newLongitude : number (up to 4 digit-whole number and 6 decimal places only. example : 1234.456789)
+newLatitude : number (up to 4 digit-whole number and 6 decimal places only. example : 1234.456789)
+
 )
 	</pre>
 </p>
