@@ -134,6 +134,7 @@ longitude : number (up to 4 digit-whole number and 6 decimal places only. exampl
 			<p class="endPoint">POST: /api/register</p>
 			<p class="endPointNotes">This should only be used when username and email are validated/unique.</p>
 			<p class="endPointNotes">Check the next 2 endpoints for checking the username and email</p>
+			<p class="endPointNotes">[UPDATED SEPT 1 2020 : It now returns a token after a successful registration]</p>
 			<p class="completeLink">https://ancient-garden-70007.herokuapp.com/api/register</p>
 		</div>
 		<div class="reqresContainer">
@@ -154,7 +155,8 @@ type: string (either: "Customer" or "Business_owner" CASE SENSITIVE)
 <p class="res">
 	<pre>					
 {
- "msg" : "Successfully added user!"
+ "msg" : "Successfully added user!",
+ "token" : "encrypted string"
 }
 	</pre>
 </p>
@@ -278,7 +280,8 @@ password: string
 	<pre>					
 {
  "authorized" : true,
- "msg" : "Successfully logged in!"
+ "msg" : "Successfully logged in!",
+ "token" : "encrypted" string
 }
 	</pre>
 	OR
@@ -286,7 +289,6 @@ password: string
 {
  "authorized" : false,
  "msg" : "Please check the Username and/or Password,
- "token": token, please store this in the localStorage
 }
 	</pre>
 

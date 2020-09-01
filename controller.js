@@ -391,27 +391,26 @@ module.exports.createAccount = async (req, res) => { // creating a customer/busi
 
 	let userPW = await bcrypt.hash(userInfo.password, 8) // encrypting for security
 	// add account to db
-	if(userInfo.picture === "NULL" || userInfo.picture === null){
-		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password,  User_type) VALUES ("${userInfo.name}","${userInfo.username}", "${userInfo.email}", "${userPW}", "${userInfo.type}")`
-		database.query(addUserToDBQuery, (err, result)=>{
-			if(err){
-				console.log("ADD USER TO DB ERR: ", err)
-				throw new Error("AARON ERR ", err)
-			}else{
-				res.status(200).json({msg:"Successfully added user!"})
-			}
-		})
-	}else{
-		const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password, Picture,  User_type) VALUES ("${userInfo.name}","${userInfo.username}", "${userInfo.email}", "${userPW}", "${userInfo.picture}", "${userInfo.type}")`
-		database.query(addUserToDBQuery, (err, result)=>{
-			if(err){
-				console.log("ADD USER TO DB ERR: ", err)
-				throw new Error("AARON ERR 2", err)
-			}else{
-				res.status(200).json({msg:"Successfully added user!"})
-			}
-		})
-	}
+	const addUserToDBQuery = `INSERT INTO USER(Name, Username, Email, Password, Picture,  User_type) VALUES ("${userInfo.name}","${userInfo.username}", "${userInfo.email}", "${userPW}", "${userInfo.picture}", "${userInfo.type}")`
+	database.query(addUserToDBQuery, (err, result)=>{
+		if(err){
+			console.log("ADD USER TO DB ERR: ", err)
+			throw new Error("ADD USER TO DB ERR: ", err)
+		}else{
+
+			const getNewUserFrDBQuery = `SELECT * FROM USER WHERE Username='${userInfo.username}'`
+			database.query(getNewUserFrDBQuery, (err, result1)=>{
+				if(err){
+					console.log("GET NEW USER FR DB ERR: ", err)
+					throw new Error("GET NEW USER FR DB ERR: ", err)
+				}else{
+				const token = jwt.sign({
+					id : result1[0].User_id}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRY})
+				res.status(200).json({msg:"Successfully added user!", token})
+				}
+			})
+		}
+	})
 }
 
 // *************************************************** DELETE FROM DB ***************************************************
@@ -612,12 +611,13 @@ module.exports.loginUser = (req,res) =>{ // login user to website
 					}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRY})
 					return res.status(200).json({ authorized: true, msg: "Successfully logged in!", token})
 				}else{
-					return res.status(200).json({ authorized: false, msg: "Login failed"})
+					//incorrect password
+					return res.status(200).json({ authorized: false, msg: "Please check the Username and/or Password"})
 				}
 			}else{
-				//incorrect username or password
+				//no such user
 				return res.send({authorized: false, msg:"Please check the Username and/or Password"})
-				console.log("Not in the database")
+				// console.log("Not in the database")
 			}
 		})
 	}else{
