@@ -19,10 +19,10 @@ module.exports = (app) => {
 	app.post('/api/addPhoto',				   				    controller.addFoodPlacePhoto) //
 	app.post('/api/remove/photo/:foodPlaceID',				    controller.deleteFoodPlacePhoto) //
 	app.post('/api/verifyToken',								controller.verifyToken) //
+	app.post('/api/remove/comment',     			        	controller.deleteComments) //
 	app.delete('/api/removeFoodPlace/:foodPlaceId', 			controller.deleteFoodPlace) //
 	app.delete('/api/remove/customer/:username', 				controller.deleteAccountCustomer) //
 	app.delete('/api/remove/owner/:username',     				controller.deleteBusinessOwner) //
-	app.delete('/api/remove/comment',     			        	controller.deleteComments) //
 	app.patch('/api/profile/update',     			        	controller.updateAccountInfo) // 
 	app.patch('/api/editFoodPlace',     			        	controller.updateFoodPlace) //
 }
