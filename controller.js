@@ -434,6 +434,7 @@ module.exports.deleteFoodPlace = (req, res) => { // this function should only be
 
 module.exports.deleteComments = (req,res) =>{			//child table is fine to delete items
 	//input for query
+	console.log("JAI HERE: ", req.body)
 	const commentsInfo = {
 		userID : req.body.userID,
 		foodPlaceID : req.body.foodPlaceID,
