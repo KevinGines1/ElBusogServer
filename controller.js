@@ -435,6 +435,7 @@ module.exports.deleteFoodPlace = (req, res) => { // this function should only be
 module.exports.deleteComments = (req,res) =>{			//child table is fine to delete items
 	//input for query
 	console.log("JAI HERE1: ", req.body)
+	console.log("REQUEST: ", req)
 	const commentsInfo = {
 		userID : req.body.userID,
 		foodPlaceID : req.body.foodPlaceID,
@@ -444,6 +445,7 @@ module.exports.deleteComments = (req,res) =>{			//child table is fine to delete 
 	//query here
 	const removeCommentsAndRatingQuery = `DELETE FROM RATES_COMMENTS WHERE User_id = ${commentsInfo.userID} AND Food_place_id = ${commentsInfo.foodPlaceID} AND Rating = ${commentsInfo.rating} AND Comment = "${commentsInfo.comment}"`
 	//executes here
+	console.log(removeCommentsAndRatingQuery)
 	database.query(removeCommentsAndRatingQuery, (error, results)=>{
 		if(error){
 			//failed to delete
