@@ -441,7 +441,7 @@ module.exports.deleteComments = (req,res) =>{			//child table is fine to delete 
 		comment : req.body.comment,
 	}
 	//query here
-	const removeCommentsAndRatingQuery = `DELETE FROM RATES_COMMENTS WHERE User_id = ${commentsInfo.userID} AND Food_place_id = ${commentsInfo.foodPlaceID} AND Rating = ${commentsInfo.rating} AND Comment = ${commentsInfo.comment}`
+	const removeCommentsAndRatingQuery = `DELETE FROM RATES_COMMENTS WHERE User_id = ${commentsInfo.userID} AND Food_place_id = ${commentsInfo.foodPlaceID} AND Rating = ${commentsInfo.rating} AND Comment = "${commentsInfo.comment}"`
 	//executes here
 	database.query(removeCommentsAndRatingQuery, (error, results)=>{
 		if(error){
