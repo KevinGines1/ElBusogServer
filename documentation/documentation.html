@@ -471,6 +471,7 @@ comment: string (yung comment mismo)
 	<div class="endpointContainer">
 		<div class="endpointLink">
 			<p class="endPoint">GET: /api/comments/:foodPlaceId</p>
+			<p class="endPointNotes">[UPDATED SEPT 4, 2020] Return a username when getting the comments</p>
 			<a href="https://ancient-garden-70007.herokuapp.com/api/comments/3" class="completeLink">https://ancient-garden-70007.herokuapp.com/api/comments/3</a>
 		</div>
 		<div class="reqresContainer">
@@ -482,6 +483,7 @@ comment: string (yung comment mismo)
 [
 	{
         "User_id": int,
+        "Username" : string,
         "Food_place_id": int,
         "Rating": int,
         "Comment": string,
@@ -494,6 +496,7 @@ EXAMPLE: (if you click the link on the header)
 [
     {
         "User_id": 4,
+        "Username" : "Kevsz",
         "Food_place_id": 3,
         "Rating": 4,
         "Comment": "Miss ko na chickenjoy huhu",
@@ -501,6 +504,7 @@ EXAMPLE: (if you click the link on the header)
     },
     {
         "User_id": 4,
+        "Username" : "Kevsz",
         "Food_place_id": 3,
         "Rating": 4,
         "Comment": "SARAP NG CHICKEN AMP PERO BAKIT DI KAYO 24H OPEN HUHU",

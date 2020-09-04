@@ -365,7 +365,7 @@ module.exports.addComment = (req, res) => { // this function should only be call
 	}
 
 	//create query
-	const addRatingAndCommentQuery = `INSERT INTO RATES_COMMENTS(User_id, Food_place_id, Rating, Comment, Date_posted) VALUES ('${ratingInfo.userId}', '${ratingInfo.foodPlaceId}','${ratingInfo.rating}', '${ratingInfo.comment}', CURDATE())`
+	const addRatingAndCommentQuery = `INSERT INTO RATES_COMMENTS(User_id, Username, Food_place_id, Rating, Comment, Date_posted) VALUES ('${ratingInfo.userId}', (SELECT Username FROM USER WHERE User_id=${ratingInfo.userId}), '${ratingInfo.foodPlaceId}','${ratingInfo.rating}', '${ratingInfo.comment}', CURDATE())`
 
 	//execute query
 	database.query(addRatingAndCommentQuery, (err, result)=>{
